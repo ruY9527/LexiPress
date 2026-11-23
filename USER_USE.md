@@ -278,45 +278,51 @@ sources:
 
 ## 8. GitHub Pages 部署
 
-### 8.1 准备仓库
+### 8.1 核心模式：后端本地跑，GitHub 只渲染
+
+**采集、LLM 精读解析、后台管理全部只在本地运行。** GitHub Actions 只做一件事：
+把已经提交到仓库的博客源文件（`data/parsed/*.json` + `data/index.json`）用
+`python main.py --build-only` 渲染成静态站，然后部署到 GitHub Pages。
+
+因此 **GitHub 上不需要配置 LLM 密钥，也不会运行任何采集/解析逻辑**。
+
+### 8.2 准备仓库
 
 1. 在 GitHub 创建名为 **`LexiPress`** 的仓库。
 2. 进入 **Settings → Pages → Build and deployment → Source**，选择 **GitHub Actions**。
 
-### 8.2 配置 Secrets（可选）
-
-**Settings → Secrets and variables → Actions → New repository secret**：
-
-| Secret | 说明 |
-| :--- | :--- |
-| `LLM_API_KEY` | 大模型密钥（不配则规则降级） |
-| `LLM_BASE_URL` | 接口地址，默认 `https://api.deepseek.com/v1` |
-| `LLM_MODEL` | 模型名，默认 `deepseek-chat` |
-
-### 8.3 推送代码
+### 8.3 本地准备博客源文件
 
 ```bash
-git init
-git remote add origin git@github.com:<你的用户名>/LexiPress.git
-git add .
-git commit -m "init: LexiPress"
-git push -u origin main
+# 本地：采集 → 精选 → 解析（可反复调整，直到满意）
+python main.py --admin          # 后台可视化操作，或
+python main.py --pipeline full  # 一键全自动
+
+# 本地可随时预览效果
+python main.py --build-only
 ```
 
-推送后，`.github/workflows/deploy-site.yml` 会自动构建并部署。
+### 8.4 提交并推送（触发部署）
 
-### 8.4 两个 Workflow
+```bash
+git add data/ templates/ src/ config/ main.py requirements-build.txt .github/
+git commit -m "chore(content): update curated issues"
+git push
+```
 
-| Workflow | 触发 | 作用 |
-| :--- | :--- | :--- |
-| `deploy-site.yml` | push 到 `main`（涉及模板/代码/数据/配置） | 秒级重建部署，**不抓取、不调 LLM** |
-| `daily-publish.yml` | 每日 07:00（北京时间）+ 手动 Run workflow | 全自动采集 → 精选 → 解析 → 回写缓存 → 部署 |
+推送后，`.github/workflows/deploy-site.yml` 自动：
+1. 安装 `requirements-build.txt`（仅 4 个轻量包）
+2. `python main.py --build-only` 渲染静态站
+3. 上传并部署到 GitHub Pages
 
-### 8.5 日常更新
+约 30 秒后即可访问 `https://<你的用户名>.github.io/LexiPress/`。
 
-- **改 UI / 加文章**：本地 `--build-only` 后 `git push`，约 30 秒自动上线。
-- **每日自动**：无需干预，Actions 定时运行；也可在 Actions 页手动触发。
-- **本地同步云端文章**：`git pull` 后启动 `--admin`，本地后台会自动显示云端新发布的文章。
+### 8.5 日常更新流程
+
+- **有新文章**：本地跑 `--pipeline full` 或后台操作，生成新的 `data/parsed/*.json`，提交推送即可。
+- **改 UI / 样式**：改 `templates/` 或 `src/builder.py`，提交推送即可。
+- **下架文章**：在后台「发布中心」关闭对应文章的上线开关，提交推送。
+- 全程无需在 GitHub 上做任何操作，只需本地准备好源文件后 push。
 
 ---
 

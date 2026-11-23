@@ -17,7 +17,9 @@
 | **优雅降级** | 未配置 `LLM_API_KEY` 或调用失败时，自动降级为 `RuleOnlyParser`，站点照常发布 |
 | **高端杂志风前台** | Editorial Luxury 美学，三套护眼主题、Hero 头版 + Bento 网格、沉浸式精读页 |
 | **本地可视化后台** | FastAPI + SSE 实时日志，仪表盘/候选池/源管理/日志/发布五大页面 |
-| **全自动发布** | GitHub Actions 双 Workflow：每日定时采集 + push 秒级重建部署 |
+| **轻量自动发布** | GitHub Actions 纯渲染：只跑 `--build-only`，不运行任何后端逻辑 |
+
+> **职责边界**：采集、LLM 解析、后台管理**只在本地运行**；GitHub Actions 仅负责把已就绪的博客源文件渲染成静态站并部署。
 
 ---
 
@@ -32,8 +34,10 @@
         ↓
 [4. SiteBuilder 站点生成器]     Jinja2 + 现代原生 CSS + Vanilla JS → 高端杂志风静态站
         ↓
-[5. GitHub Workflow 发布流]     actions/deploy-pages → https://<user>.github.io/LexiPress/
+[5. GitHub Workflow 发布流]     只跑 --build-only 渲染 → actions/deploy-pages
 ```
+
+> 第 1~3 步（采集/精选/解析）**只在本地运行**；第 4~5 步中，构建在本地可跑、在 GitHub 上只做纯渲染发布。
 
 ### 双层存储
 
@@ -46,7 +50,7 @@
 
 ```
 LexiPress/
-├── .github/workflows/         # daily-publish.yml + deploy-site.yml
+├── .github/workflows/         # deploy-site.yml（纯渲染部署）
 ├── config/                    # settings.yaml（站点/采集/LLM/后台）+ feeds.yaml（订阅源）
 ├── src/
 │   ├── models.py              # Pydantic v2 数据契约
@@ -65,7 +69,8 @@ LexiPress/
 ├── scripts/                   # seed_demo.py + e2e_check.py
 ├── tests/                     # pytest 单元/集成测试
 ├── main.py                    # 统一 CLI 入口
-├── requirements.txt
+├── requirements.txt           # 完整开发依赖（本地采集/解析/后台用）
+├── requirements-build.txt     # 构建最小依赖（GitHub Actions 渲染专用）
 └── README.md
 ```
 
@@ -123,11 +128,25 @@ python scripts/e2e_check.py --shots  # 浏览器端到端验收（需 Playwright
 
 ## 📦 部署到 GitHub Pages
 
+**核心模式：后端只在本地跑，GitHub 只做渲染。**
+
+采集、LLM 精读解析等后端逻辑**只在你本地运行**，产出的博客源文件（`data/parsed/*.json` + `data/index.json`）提交到仓库。GitHub Actions 的 `deploy-site.yml` 只执行 `--build-only` 渲染静态站并部署，**不运行任何后端逻辑**，因此也不需要配置 LLM 密钥。
+
 1. 在 GitHub 创建名为 `LexiPress` 的仓库。
 2. 打开仓库 **Settings → Pages → Source** 选择 **GitHub Actions**。
-3. 在 **Settings → Secrets and variables → Actions** 添加（可选）：
-   - `LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL`（不配则规则降级）
-4. 推送代码后，`deploy-site.yml` 自动构建部署；`daily-publish.yml` 每日 07:00（北京时间）自动采集更新，也可在 Actions 页手动 **Run workflow**。
+3. 本地准备好博客源文件后提交推送，`deploy-site.yml` 自动渲染部署：
+
+   ```bash
+   # 本地：采集 → 精选 → 解析（可反复调整，直到满意）
+   python main.py --admin        # 或 python main.py --pipeline full
+
+   # 满意后提交博客源文件，推送即触发部署
+   git add data/ templates/ src/ config/ main.py requirements-build.txt .github/
+   git commit -m "chore(content): update curated issues"
+   git push
+   ```
+
+> 渲染路径只依赖 `requirements-build.txt` 中的 4 个轻量包（Jinja2/Pydantic/PyYAML/python-dotenv），不安装采集器/解析器/admin 的重依赖。
 
 ---
 

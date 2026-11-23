@@ -29,12 +29,13 @@ from src.console import ensure_utf8_console  # noqa: E402
 
 ensure_utf8_console()
 
+# 注意：这里只导入「构建静态站」所需的最小依赖（builder/config/storage）。
+# 采集器(harvester)、解析器(parser)、admin 后台等后端模块全部改为函数内惰性导入，
+# 这样 `python main.py --build-only`（GitHub Actions 部署路径）无需安装
+# trafilatura / feedparser / openai / fastapi 等后端重依赖。
+
 from src.builder import SiteBuilder  # noqa: E402
 from src.config import DIST_DIR, ensure_dirs, load_settings  # noqa: E402
-from src.harvester.base import LOG_BUS, log  # noqa: E402
-from src.harvester.pipeline import HarvesterPipeline  # noqa: E402
-from src.models import ArticleStatus  # noqa: E402
-from src.parser import ParseService, StudyParser  # noqa: E402
 from src.storage import Storage  # noqa: E402
 
 
@@ -51,6 +52,17 @@ def _console_logger(entry: dict) -> None:
     print(f"  {ts} [{level}] {entry.get('message', '')}")
 
 
+def _log(level: str, message: str, scope: str = "pipeline") -> None:
+    """轻量日志封装：仅构建路径使用，避免导入 harvester 的 LogBus。"""
+
+    try:
+        from src.harvester.base import log as _bus_log
+
+        _bus_log(level, message, scope=scope)
+    except Exception:  # noqa: BLE001
+        _console_logger({"ts": "", "level": level, "message": message})
+
+
 # ---------------------------------------------------------------------------
 # 同步
 # ---------------------------------------------------------------------------
@@ -65,14 +77,14 @@ def _sync(storage: Storage, *, backfill_index: bool = False) -> None:
     """
 
     stats = storage.sync_git_assets_to_db(backfill_index=backfill_index)
-    log(
+    _log(
         "INFO",
         f"同步完成：index {stats['index_entries']} 条 · parsed {stats['parsed_files']} 份 · "
         f"新增入库 {stats['inserted']} · 更新 {stats['updated']} · 离线保留 {stats['skipped']}",
         scope="sync",
     )
     if backfill_index and stats.get("backfilled"):
-        log("INFO", f"已把 {stats['backfilled']} 篇离线资产恢复进 index.json", scope="sync")
+        _log("INFO", f"已把 {stats['backfilled']} 篇离线资产恢复进 index.json", scope="sync")
 
 
 # ---------------------------------------------------------------------------
@@ -95,6 +107,8 @@ def cmd_admin(args: argparse.Namespace) -> int:
 
 
 async def cmd_crawl(args: argparse.Namespace) -> int:
+    from src.harvester.pipeline import HarvesterPipeline  # 惰性导入，避免构建路径加载后端依赖
+
     _banner("LexiPress · 采集入库")
     ensure_dirs()
     storage = Storage()
@@ -121,6 +135,9 @@ async def cmd_crawl(args: argparse.Namespace) -> int:
 
 
 async def cmd_full(args: argparse.Namespace) -> int:
+    from src.harvester.pipeline import HarvesterPipeline  # 惰性导入
+    from src.parser import ParseService, StudyParser  # 惰性导入
+
     _banner("LexiPress · 全自动流水线")
     ensure_dirs()
 
@@ -279,7 +296,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    log("INFO", f"LexiPress CLI 启动：{vars(args)}", scope="cli")
+    _log("INFO", f"LexiPress CLI 启动：{vars(args)}", scope="cli")
 
     try:
         if args.admin:
@@ -295,10 +312,15 @@ def main(argv: list[str] | None = None) -> int:
         return 130
     except Exception as exc:  # noqa: BLE001
         print(f"\n  ✗ 执行失败：{type(exc).__name__}: {exc}", file=sys.stderr)
-        if LOG_BUS.recent(limit=5):
-            print("  最近日志：", file=sys.stderr)
-            for entry in LOG_BUS.recent(limit=5):
-                print(f"    [{entry['level']}] {entry['message']}", file=sys.stderr)
+        try:
+            from src.harvester.base import LOG_BUS
+
+            if LOG_BUS.recent(limit=5):
+                print("  最近日志：", file=sys.stderr)
+                for entry in LOG_BUS.recent(limit=5):
+                    print(f"    [{entry['level']}] {entry['message']}", file=sys.stderr)
+        except Exception:  # noqa: BLE001 - 后端依赖未安装时静默跳过
+            pass
         return 1
 
     parser.print_help()

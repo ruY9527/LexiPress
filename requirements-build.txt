@@ -1,0 +1,10 @@
+# LexiPress 静态站构建最小依赖（GitHub Actions 部署专用）
+# 只包含 `python main.py --build-only` 渲染 dist/ 所需的轻量包，
+# 不含采集器/解析器/admin 后台的后端重依赖（trafilatura/feedparser/openai/fastapi 等）。
+#
+# 完整开发依赖见 requirements.txt。
+
+Jinja2>=3.1.4
+pydantic>=2.7.0
+PyYAML>=6.0.1
+python-dotenv>=1.0.1
