@@ -1,0 +1,34 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ---- LexiPress 本地运行时 ----
+data/lexipress.db
+data/lexipress.db-wal
+data/lexipress.db-shm
+data/*.tmp
+data/parsed/*.tmp
+data/.cache/
+logs/
+
+# ---- 构建产物（由 Workflow / 本地构建生成）----
+dist/
+
+# ---- 敏感信息 ----
+.env
+.env.local
+*.pem
+
+# ---- 系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

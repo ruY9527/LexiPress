@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}构建与发布 · LexiPress Admin{% endblock %}
+{% block page_title %}构建与发布中心{% endblock %}
+{% block page_sub %}Publish Center{% endblock %}
+
+{% block topbar_actions %}
+<button class="btn btn--sm btn--primary" data-action="build">重新生成静态站</button>
+{% endblock %}
+
+{% block content %}
+
+<div class="split" style="margin-bottom:16px;">
+  {# ---------------- 构建状态 ---------------- #}
+  <section class="card">
+    <div class="card__head">
+      <h2 class="card__title">静态站构建状态</h2>
+      <span class="badge {{ 'badge--published' if dist_ready else 'badge--rejected' }}" data-role="dist-badge">
+        {{ 'dist/ 已就绪' if dist_ready else 'dist/ 未构建' }}
+      </span>
+    </div>
+    <div class="card__body">
+      <div class="diag-grid" data-role="site-status">
+        <div class="diag-cell"><span class="diag-cell__label">构建时间</span><span class="diag-cell__value" data-role="s-built">—</span></div>
+        <div class="diag-cell"><span class="diag-cell__label">文章页数</span><span class="diag-cell__value" data-role="s-pages">—</span></div>
+        <div class="diag-cell"><span class="diag-cell__label">.nojekyll</span><span class="diag-cell__value" data-role="s-nojekyll">—</span></div>
+        <div class="diag-cell"><span class="diag-cell__label">404.html</span><span class="diag-cell__value" data-role="s-404">—</span></div>
+        <div class="diag-cell"><span class="diag-cell__label">search-index.json</span><span class="diag-cell__value" data-role="s-search">—</span></div>
+        <div class="diag-cell"><span class="diag-cell__label">index.html 大小</span><span class="diag-cell__value" data-role="s-size">—</span></div>
+      </div>
+      <div class="row">
+        <button class="btn btn--primary" data-action="build">重新生成静态站</button>
+        <a class="btn" href="/LexiPress/" target="_blank" rel="noopener">打开在线效果预览 ↗</a>
+      </div>
+      <p style="margin:12px 0 0;font-size:0.76rem;color:var(--text-muted);line-height:1.7;">
+        预览地址 <code>/LexiPress/</code> 与 GitHub Pages 子路径完全一致，可在此完成上线前的全部验收。
+      </p>
+    </div>
+  </section>
+
+  {# ---------------- Git 同步状态 ---------------- #}
+  <section class="card">
+    <div class="card__head">
+      <h2 class="card__title">Git 同步状态</h2>
+      <button class="btn btn--sm btn--ghost" data-action="refresh-git">刷新</button>
+    </div>
+    <div class="card__body" data-role="git-panel">
+      <p class="empty">读取中…</p>
+    </div>
+  </section>
+</div>
+
+{# ---------------- 文章发布清单 ---------------- #}
+<section class="card">
+  <div class="card__head">
+    <h2 class="card__title">已写入 <code>data/parsed/</code> 的文章（{{ total }}）</h2>
+    <div class="row row--tight">
+      <input class="input" type="search" data-role="publish-search" placeholder="过滤标题…" style="width:180px;">
+    </div>
+  </div>
+  <div class="card__body card__body--flush">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>标题</th>
+            <th>来源</th>
+            <th>发布</th>
+            <th>词数</th>
+            <th>难度</th>
+            <th>生词</th>
+            <th>模式</th>
+            <th>上线</th>
+            <th style="text-align:right;">操作</th>
+          </tr>
+        </thead>
+        <tbody data-role="publish-rows">
+          {% for r in rows %}
+          <tr data-article-id="{{ r.id }}" data-title="{{ r.title|lower }}">
+            <td class="table__title" data-action="open-article">{{ r.title }}</td>
+            <td style="font-size:0.78rem;color:var(--text-secondary);">{{ r.source }}</td>
+            <td class="mono" style="font-size:0.68rem;">{{ r.published_at }}</td>
+            <td class="mono" style="font-size:0.7rem;">{{ r.word_count }}</td>
+            <td><span class="badge">{{ r.difficulty }}</span></td>
+            <td class="mono" style="font-size:0.7rem;">{{ r.vocab_count }}</td>
+            <td><span class="badge {{ 'badge--published' if r.parser_mode == 'llm' else '' }}">{{ r.parser_mode }}</span></td>
+            <td>
+              <button class="switch {{ 'is-on' if r.online }}" data-action="toggle-online" aria-label="上线/下线"></button>
+            </td>
+            <td>
+              <div class="table__actions">
+                <a class="btn btn--xs" href="/LexiPress/articles/{{ r.id }}/" target="_blank" rel="noopener">预览</a>
+                <button class="btn btn--xs" data-action="reparse">重新解析</button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% if not rows %}
+          <tr>
+            <td colspan="9" class="empty">
+              <strong>还没有已解析的文章</strong>
+              先在「文章候选池」里抓取并解析文章，或把 JSON 直接放入 data/parsed/。
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% if orphan_entries %}
+<div class="alert alert--warn" style="margin-top:16px;">
+  检测到 {{ orphan_entries|length }} 条 index.json 记录缺少对应的 parsed 文件，构建时会自动跳过：
+  {% for e in orphan_entries[:5] %}<code>{{ e.id }}</code>{% if not loop.last %}、{% endif %}{% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin-static/publish.js" defer></script>
+{% endblock %}

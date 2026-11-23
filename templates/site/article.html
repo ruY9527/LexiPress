@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} · {{ article.source }} · {{ site.title }}{% endblock %}
+{% block description %}{{ article.excerpt }}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block body_class %}page-article{% endblock %}
+
+{% block head_extra %}
+<meta property="article:published_time" content="{{ article.published_at }}">
+<meta property="article:section" content="{{ article.source }}">
+{% if article.cover_image %}<meta property="og:image" content="{{ article.cover_image }}">{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="reading-progress" data-role="reading-progress" aria-hidden="true"></div>
+
+<div class="article-wrap">
+  <div class="article-layout" data-role="article-layout">
+
+    {# ==================== 主阅读栏 ==================== #}
+    <div class="reading-column">
+      <a class="back-link" href="{{ base_url }}/">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"></path></svg>
+        Back to Issues
+      </a>
+
+      <header class="article-head">
+        <div class="article-head__meta">
+          <span class="article-head__source">{{ article.source }}</span>
+          {% if article.original_url %}
+          <a class="external-link" href="{{ article.original_url }}" target="_blank" rel="noopener noreferrer">Read Original ↗</a>
+          {% endif %}
+          {% if article.published_display %}<span>{{ article.published_display }}</span>{% endif %}
+        </div>
+        <h1 class="article-head__title">{{ article.title }}</h1>
+        <div class="article-head__byline">
+          {% if article.author %}<span>{{ article.author }}</span>{% endif %}
+          {% if article.tags %}<span aria-hidden="true">·</span><span>{{ article.tags|join(' · ') }}</span>{% endif %}
+        </div>
+        <div class="article-head__stats">
+          <span class="stat-pill">{{ article.word_count }} words</span>
+          <span class="stat-pill">{{ article.read_time_min }} min read</span>
+          <span class="stat-pill">{{ article.difficulty }}</span>
+          {% if article.vocab_count %}<span class="stat-pill">{{ article.vocab_count }} vocab</span>{% endif %}
+          <span class="stat-pill">{{ article.paragraph_count }} paragraphs</span>
+        </div>
+      </header>
+
+      <div class="article-body reader-mode-vocab" data-role="article-body" data-article-id="{{ article.id }}">
+        {% for para in paragraphs %}
+        <div class="para-block" data-para-index="{{ para.index }}">
+          <p class="para-en">{{ para.html|safe }}</p>
+          {% if para.zh %}
+          <p class="para-zh" lang="zh-CN">{{ para.zh }}</p>
+          {% endif %}
+          {% if para.zh %}
+          <button class="para-toggle" type="button" data-action="toggle-para" aria-label="展开/收起本段译文" title="展开/收起本段译文">译</button>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <footer class="article-foot">
+        <span class="finish-mark" aria-hidden="true">✦ ✦ ✦</span>
+        <div class="mark-read-row">
+          <button class="mark-read" type="button" data-action="mark-read" data-article-id="{{ article.id }}">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5 9 17.5 20 6.5"></path></svg>
+            <span data-role="mark-read-label">标记为已读</span>
+          </button>
+        </div>
+
+        {% if prev_article or next_article %}
+        <nav class="nav-cards" aria-label="相邻文章">
+          {% if prev_article %}
+          <a class="nav-card" href="{{ base_url }}/articles/{{ prev_article.id }}/">
+            <span class="nav-card__label">← Previous</span>
+            <span class="nav-card__title">{{ prev_article.title }}</span>
+          </a>
+          {% endif %}
+          {% if next_article %}
+          <a class="nav-card" href="{{ base_url }}/articles/{{ next_article.id }}/">
+            <span class="nav-card__label">Next →</span>
+            <span class="nav-card__title">{{ next_article.title }}</span>
+          </a>
+          {% endif %}
+        </nav>
+        {% endif %}
+      </footer>
+    </div>
+
+    {# ==================== 右侧精读助手栏（桌面） ==================== #}
+    <aside class="study-aside" data-role="study-aside" aria-label="精读助手">
+      <div class="aside-tabs" role="tablist">
+        <button class="aside-tab is-active" type="button" role="tab" data-tab="overview">导读</button>
+        <button class="aside-tab" type="button" role="tab" data-tab="vocab">词表{% if article.vocab_count %} <span class="mono">({{ article.vocab_count }})</span>{% endif %}</button>
+        <button class="aside-tab" type="button" role="tab" data-tab="sentences">长难句{% if article.sentences %} <span class="mono">({{ article.sentences|length }})</span>{% endif %}</button>
+      </div>
+
+      {# ---- 导读 ---- #}
+      <section class="aside-panel is-active" data-panel="overview">
+        {% if overview.summary_zh or overview.takeaways %}
+        <div class="spoiler" data-role="spoiler">
+          <div class="spoiler__content">
+            {% if overview.summary_zh %}
+            <div class="aside-block">
+              <h3 class="aside-block__title">Summary</h3>
+              <p class="aside-text">{{ overview.summary_zh }}</p>
+            </div>
+            {% endif %}
+            {% if overview.takeaways %}
+            <div class="aside-block">
+              <h3 class="aside-block__title">Key Takeaways</h3>
+              <ul class="takeaway-list">
+                {% for t in overview.takeaways %}<li>{{ t }}</li>{% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {% if overview.structure %}
+            <div class="aside-block">
+              <h3 class="aside-block__title">Structure</h3>
+              <p class="aside-text">{{ overview.structure }}</p>
+            </div>
+            {% endif %}
+            {% if overview.background %}
+            <div class="aside-block">
+              <h3 class="aside-block__title">Background</h3>
+              <p class="aside-text">{{ overview.background }}</p>
+            </div>
+            {% endif %}
+          </div>
+          <div class="spoiler__veil" data-action="reveal-spoiler" role="button" tabindex="0">
+            <strong>点击揭晓文章导读</strong>
+            <span>建议先盲读英文，再回看要点</span>
+          </div>
+        </div>
+        {% else %}
+        <p class="empty-hint">本文暂未生成导读。<br>可在后台对该篇执行「LLM 解析」后重新构建。</p>
+        {% endif %}
+
+        {% if article.tags %}
+        <div class="aside-block" style="margin-top:var(--space-5);">
+          <h3 class="aside-block__title">Topics</h3>
+          <div class="chip-row">{% for tag in article.tags %}<span class="chip">{{ tag }}</span>{% endfor %}</div>
+        </div>
+        {% endif %}
+      </section>
+
+      {# ---- 词表 ---- #}
+      <section class="aside-panel" data-panel="vocab">
+        {% if vocab %}
+        {% for v in vocab %}
+        <div class="vocab-card" data-vocab-id="{{ v.id }}" data-term="{{ v.term }}" tabindex="0">
+          <div class="vocab-card__head">
+            <span class="vocab-card__term">{{ v.term }}</span>
+            {% if v.pos %}<span class="vocab-card__pos">{{ v.pos }}</span>{% endif %}
+          </div>
+          {% if v.phonetic %}<p class="vocab-card__phonetic">{{ v.phonetic }}</p>{% endif %}
+          {% if v.meaning_zh %}<p class="vocab-card__meaning">{{ v.meaning_zh }}</p>{% endif %}
+          {% if v.note %}<p class="vocab-card__note">{{ v.note }}</p>{% endif %}
+          <div class="vocab-card__actions">
+            <button class="mini-button" type="button" data-action="speak" data-term="{{ v.term }}">🔊 发音</button>
+            <button class="mini-button" type="button" data-action="save-vocab"
+                    data-term="{{ v.term }}" data-phonetic="{{ v.phonetic }}"
+                    data-meaning="{{ v.meaning_zh }}" data-article-id="{{ article.id }}"
+                    data-source="{{ article.title }}">☆ 收藏</button>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="empty-hint">本文暂未提取核心词表。<br>规则模式下仅做难度评估与结构提示。</p>
+        {% endif %}
+      </section>
+
+      {# ---- 长难句 ---- #}
+      <section class="aside-panel" data-panel="sentences">
+        {% if sentences %}
+        {% for s in sentences %}
+        <div class="sentence-card">
+          <p class="sentence-card__en">{{ s.en }}</p>
+          {% if s.structure %}<p class="sentence-card__structure">{{ s.structure }}</p>{% endif %}
+          {% if s.zh %}<p class="sentence-card__zh">{{ s.zh }}</p>{% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="empty-hint">本文暂未拆解长难句。</p>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
+</div>
+
+{# ==================== 移动端底部抽屉 ==================== #}
+<button class="aside-fab" type="button" data-action="open-sheet">
+  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"></path></svg>
+  精读笔记
+</button>
+
+<div class="overlay" data-role="overlay" data-target="sheet" hidden></div>
+<div class="sheet" data-role="sheet" aria-label="精读笔记">
+  <div class="sheet__grip" aria-hidden="true"></div>
+  <div class="sheet__head">
+    <div class="aside-tabs" role="tablist" style="margin:0;border:none;">
+      <button class="aside-tab is-active" type="button" role="tab" data-tab="overview">导读</button>
+      <button class="aside-tab" type="button" role="tab" data-tab="vocab">词表</button>
+      <button class="aside-tab" type="button" role="tab" data-tab="sentences">长难句</button>
+    </div>
+    <button class="icon-button" type="button" data-action="close-sheet" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <div class="sheet__body" data-role="sheet-body"></div>
+</div>
+
+{# ==================== 悬浮控制胶囊 ==================== #}
+<div class="reader-controls" data-role="reader-controls" role="toolbar" aria-label="阅读控制">
+  <div class="segmented" role="group" aria-label="阅读模式">
+    <button class="segmented__btn" type="button" data-mode="en">纯英</button>
+    <button class="segmented__btn is-active" type="button" data-mode="vocab">生词</button>
+    <button class="segmented__btn" type="button" data-mode="dual">双语</button>
+  </div>
+  <span class="controls-divider" aria-hidden="true"></span>
+  <div style="position:relative;">
+    <button class="control-btn" type="button" data-action="toggle-aa" aria-label="排版设置" title="字号与主题">
+      <span style="font-size:0.9rem;letter-spacing:-0.02em;">Aa</span>
+    </button>
+    <div class="aa-panel" data-role="aa-panel">
+      <div class="aa-panel__row">
+        <span class="aa-panel__label">Size</span>
+        <div class="size-group" role="group" aria-label="字号">
+          <button class="size-btn" type="button" data-size="s">S</button>
+          <button class="size-btn is-active" type="button" data-size="m">M</button>
+          <button class="size-btn" type="button" data-size="l">L</button>
+        </div>
+      </div>
+      <div class="aa-panel__row">
+        <span class="aa-panel__label">Theme</span>
+        <div class="theme-dots" role="group" aria-label="主题">
+          <button class="theme-dot" type="button" data-theme-value="paper" aria-label="晨纸白"></button>
+          <button class="theme-dot" type="button" data-theme-value="sepia" aria-label="羊皮纸"></button>
+          <button class="theme-dot" type="button" data-theme-value="ink" aria-label="静谧夜"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="control-btn" type="button" data-action="toggle-zen" aria-label="禅模式" title="禅模式（Z）">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg>
+  </button>
+</div>
+
+{% if article.audio_url %}
+<div class="audio-bar">
+  <audio controls preload="none" src="{{ article.audio_url }}"></audio>
+  <button class="speed-btn" type="button" data-action="cycle-speed">1.0x</button>
+</div>
+{% endif %}
+
+{# ==================== 生词浮窗 ==================== #}
+<div class="vocab-popover" data-role="vocab-popover" role="dialog" aria-label="生词释义">
+  <div class="vocab-popover__head">
+    <span class="vocab-popover__term" data-role="pop-term"></span>
+    <span class="vocab-popover__pos" data-role="pop-pos" hidden></span>
+    <button class="vocab-popover__speak" type="button" data-action="speak-pop" aria-label="朗读该词">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h3l5 4V5L7 9H4z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7"></path></svg>
+    </button>
+  </div>
+  <p class="vocab-popover__phonetic" data-role="pop-phonetic"></p>
+  <p class="vocab-popover__meaning" data-role="pop-meaning"></p>
+  <p class="vocab-popover__note" data-role="pop-note" hidden></p>
+  <div class="vocab-popover__foot">
+    <button class="save-vocab" type="button" data-action="pop-save" data-role="pop-save">☆ 加入生词本</button>
+  </div>
+</div>
+
+<script type="application/json" data-role="article-data">
+{{ {"id": article.id, "title": article.title, "source": article.source, "vocab": vocab, "sentences": sentences, "overview": overview} | tojson }}
+</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ base_url }}/static/js/vocab.js" defer></script>
+<script src="{{ base_url }}/static/js/reader.js" defer></script>
+{% endblock %}

@@ -1,0 +1,64 @@
+# LexiPress 外刊源配置
+# type: rss | hackernews
+# 每个源均由 src/harvester 下的同名适配器接管；此文件与本地 SQLite sources 表双向同步。
+# 本文件由 LexiPress Admin 自动维护，手工编辑同样生效。
+
+sources:
+- id: aeon
+  name: Aeon
+  type: rss
+  url: https://aeon.co/feed.rss
+  category: Culture & Ideas
+  weight: 1.0
+  enabled: true
+- id: the-conversation
+  name: The Conversation
+  type: rss
+  url: https://theconversation.com/global/articles.atom
+  category: Science & Society
+  weight: 0.95
+  enabled: true
+- id: guardian-longread
+  name: The Guardian Long Read
+  type: rss
+  url: https://www.theguardian.com/news/series/the-long-read/rss
+  category: In-Depth
+  weight: 1.0
+  enabled: true
+- id: quanta
+  name: Quanta Magazine
+  type: rss
+  url: https://api.quantamagazine.org/feed/
+  category: Science & Tech
+  weight: 0.95
+  enabled: true
+- id: mit-tech-review
+  name: MIT Technology Review
+  type: rss
+  url: https://www.technologyreview.com/feed/
+  category: Technology
+  weight: 0.9
+  enabled: true
+- id: bbc-future
+  name: BBC Future
+  type: rss
+  url: https://feeds.bbci.co.uk/future/rss.xml
+  category: Science & Society
+  weight: 0.9
+  enabled: true
+- id: the-verge
+  name: The Verge
+  type: rss
+  url: https://www.theverge.com/rss/index.xml
+  category: Technology
+  weight: 0.8
+  enabled: true
+- id: hackernews
+  name: Hacker News Top
+  type: hackernews
+  url: https://hacker-news.firebaseio.com/v0/topstories.json
+  category: Tech & Engineering
+  weight: 0.85
+  enabled: true
+  min_score: 180
+  limit: 20

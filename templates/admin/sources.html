@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}外刊源管理 · LexiPress Admin{% endblock %}
+{% block page_title %}外刊源管理{% endblock %}
+{% block page_sub %}Sources Manager{% endblock %}
+
+{% block topbar_actions %}
+<button class="btn btn--sm btn--primary" data-action="add-source">+ 新增订阅源</button>
+{% endblock %}
+
+{% block content %}
+<div class="alert alert--info" style="margin-bottom:16px;">
+  源配置保存在 <code>config/feeds.yaml</code>，任何改动都会同步写入本地 SQLite <code>sources</code> 表。
+  「单源测试」只试抽前 3 篇，不会污染正式候选池。
+</div>
+
+<section class="card">
+  <div class="card__body card__body--flush">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:40px;">启用</th>
+            <th>名称 / ID</th>
+            <th>类型</th>
+            <th>分类</th>
+            <th>权重</th>
+            <th>健康</th>
+            <th>文章</th>
+            <th style="text-align:right;">操作</th>
+          </tr>
+        </thead>
+        <tbody data-role="source-rows">
+          {% for s in sources %}
+          <tr data-source-id="{{ s.id }}">
+            <td>
+              <button class="switch {{ 'is-on' if s.enabled }}" data-action="toggle-source" aria-label="启用/停用" aria-pressed="{{ 'true' if s.enabled else 'false' }}"></button>
+            </td>
+            <td>
+              <div style="font-weight:500;">{{ s.name }}</div>
+              <span class="table__title-meta">{{ s.id }} · {{ s.url[:58] }}{% if s.url|length > 58 %}…{% endif %}</span>
+            </td>
+            <td><span class="badge">{{ s.type_label }}</span></td>
+            <td style="font-size:0.78rem;color:var(--text-secondary);">{{ s.category }}</td>
+            <td class="mono" style="font-size:0.72rem;">{{ '%.2f'|format(s.weight) }}</td>
+            <td>
+              <span class="row row--tight">
+                <span class="dot {{ 'dot--ok' if s.last_status in ['ok','unknown'] and s.consecutive_failures == 0 else ('dot--error' if s.consecutive_failures >= 3 or s.last_status == 'error' else 'dot--warn') }}"></span>
+                <span class="mono" style="font-size:0.6rem;">
+                  {% if s.last_fetch_at %}{{ s.last_fetch_at[5:16] }}{% else %}未抓取{% endif %}
+                </span>
+              </span>
+              {% if s.avg_latency_ms %}
+              <span class="table__title-meta">{{ s.avg_latency_ms|round|int }}ms{% if s.consecutive_failures %} · 失败 {{ s.consecutive_failures }}{% endif %}</span>
+              {% elif s.consecutive_failures %}
+              <span class="table__title-meta" style="color:var(--error);">连续失败 {{ s.consecutive_failures }}</span>
+              {% endif %}
+            </td>
+            <td class="mono" style="font-size:0.7rem;">{{ s.article_count }}</td>
+            <td>
+              <div class="table__actions">
+                <button class="btn btn--xs" data-action="test-source">🧪 单源测试</button>
+                <button class="btn btn--xs" data-action="edit-source">编辑</button>
+                <button class="btn btn--xs btn--danger" data-action="delete-source">删除</button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% if not sources %}
+          <tr><td colspan="8" class="empty">还没有配置任何外刊源，点击右上角「+ 新增订阅源」开始。</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{# ---------------- 新增/编辑源弹窗 ---------------- #}
+<div class="modal-overlay" data-role="source-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="source-modal-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="source-modal-title" data-role="modal-title">新增订阅源</h2>
+      <button class="icon-btn" data-action="close-modal" aria-label="关闭">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="field">
+        <label class="label" for="f-id">ID（英文小写，唯一）</label>
+        <input class="input" id="f-id" data-field="id" placeholder="e.g. new-yorker" style="width:100%;">
+      </div>
+      <div class="field">
+        <label class="label" for="f-name">显示名称</label>
+        <input class="input" id="f-name" data-field="name" placeholder="e.g. The New Yorker" style="width:100%;">
+      </div>
+      <div class="field">
+        <label class="label" for="f-type">类型</label>
+        <select class="select" id="f-type" data-field="type" style="width:100%;">
+          <option value="rss">RSS / Atom</option>
+          <option value="hackernews">Hacker News</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label" for="f-url">Feed URL</label>
+        <input class="input" id="f-url" data-field="url" placeholder="https://example.com/feed.xml" style="width:100%;">
+      </div>
+      <div class="field">
+        <label class="label" for="f-category">分类</label>
+        <input class="input" id="f-category" data-field="category" placeholder="Culture &amp; Ideas" style="width:100%;">
+      </div>
+      <div class="field">
+        <label class="label" for="f-weight">权重 <span data-role="weight-value" class="mono">0.85</span></label>
+        <input class="range" id="f-weight" type="range" data-field="weight" min="0" max="1" step="0.05" value="0.85">
+      </div>
+      <div class="row" data-role="hn-fields" hidden>
+        <div class="field" style="flex:1;">
+          <label class="label" for="f-min-score">HN 最低 score</label>
+          <input class="input" id="f-min-score" type="number" data-field="min_score" value="180" style="width:100%;">
+        </div>
+        <div class="field" style="flex:1;">
+          <label class="label" for="f-limit">取用条数</label>
+          <input class="input" id="f-limit" type="number" data-field="limit" value="20" style="width:100%;">
+        </div>
+      </div>
+      <div class="alert alert--warn" data-role="modal-error" hidden></div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn" data-action="close-modal">取消</button>
+      <button class="btn btn--primary" data-action="save-source">保存</button>
+    </div>
+  </div>
+</div>
+
+{# ---------------- 单源测试报告弹窗 ---------------- #}
+<div class="modal-overlay" data-role="test-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="test-modal-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="test-modal-title">单源测试报告</h2>
+      <button class="icon-btn" data-action="close-test-modal" aria-label="关闭">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      </button>
+    </div>
+    <div class="modal__body" data-role="test-body">
+      <p class="empty">测试中…</p>
+    </div>
+    <div class="modal__foot">
+      <button class="btn" data-action="close-test-modal">关闭</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin-static/sources.js" defer></script>
+{% endblock %}

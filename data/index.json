@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-11-23T13:12:25+00:00",
+  "count": 3,
+  "articles": [
+    {
+      "id": "2026-11-23-aeon-the-architecture-of-attention",
+      "url_hash": "7f220d1e6f428a61c42b23b826e7bcb177635b9f923b7753adf51b8ba7758c71",
+      "canonical_url": "https://aeon.co/essays/the-architecture-of-attention",
+      "title": "The Architecture of Attention",
+      "source": "Aeon",
+      "source_id": "aeon",
+      "published_at": "2026-11-23",
+      "updated_at": "2026-11-23T12:21:14+00:00",
+      "score": 9.4,
+      "difficulty": "C1",
+      "word_count": 503,
+      "read_time_min": 3,
+      "tags": [
+        "Psychology",
+        "Culture",
+        "Design"
+      ],
+      "cover_image": "",
+      "vocab_count": 15,
+      "parser_mode": "llm"
+    },
+    {
+      "id": "2026-11-22-quanta-the-constraint-that-replaced-a-paradox",
+      "url_hash": "4ad2ddde9839b1c64bb35f52fac2b88ac4556fa15266cbec92ab43b781949836",
+      "canonical_url": "https://www.quantamagazine.org/the-constraint-that-replaced-a-paradox/",
+      "title": "The Constraint That Replaced a Paradox",
+      "source": "Quanta Magazine",
+      "source_id": "quanta",
+      "published_at": "2026-11-22",
+      "updated_at": "2026-11-23T12:21:14+00:00",
+      "score": 9.1,
+      "difficulty": "C2",
+      "word_count": 374,
+      "read_time_min": 2,
+      "tags": [
+        "Physics",
+        "Quantum",
+        "Philosophy of Science"
+      ],
+      "cover_image": "",
+      "vocab_count": 15,
+      "parser_mode": "llm"
+    },
+    {
+      "id": "2026-11-21-mit-tr-power-is-the-new-bottleneck",
+      "url_hash": "9a1239e18233a4dd30351566b21c6a766951600cc841484080a17175c972834f",
+      "canonical_url": "https://www.technologyreview.com/2026/11/21/power-is-the-new-bottleneck/",
+      "title": "Power Is the New Bottleneck",
+      "source": "MIT Technology Review",
+      "source_id": "mit-tech-review",
+      "published_at": "2026-11-21",
+      "updated_at": "2026-11-23T12:21:14+00:00",
+      "score": 8.7,
+      "difficulty": "C1",
+      "word_count": 395,
+      "read_time_min": 2,
+      "tags": [
+        "Technology",
+        "Infrastructure",
+        "Energy"
+      ],
+      "cover_image": "",
+      "vocab_count": 15,
+      "parser_mode": "llm"
+    }
+  ]
+}

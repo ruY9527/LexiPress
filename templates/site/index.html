@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.title }} · 每日外刊精读{% endblock %}
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+<main class="shell" id="main">
+
+  {# ---------------- 刊头刊期栏 ---------------- #}
+  <div class="masthead-strip">
+    <div class="masthead-strip__issue">
+      <span class="mono">{{ issue_label }}</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span class="mono">{{ total_count }} Issues</span>
+    </div>
+    <div class="progress-badge" title="已读进度">
+      <span>已精读 <span data-role="read-count">0</span> / {{ total_count }}</span>
+      <span class="progress-badge__bar"><span class="progress-badge__fill" data-role="read-fill"></span></span>
+    </div>
+  </div>
+
+  {% if featured %}
+  {# ---------------- Hero 今日头条 ---------------- #}
+  <section class="hero" aria-labelledby="featured-title">
+    <div class="hero__copy">
+      <div class="hero__meta">
+        <span class="hero__source">{{ featured.source }}</span>
+        <span aria-hidden="true">·</span>
+        <span class="badge-level">{{ featured.difficulty }}</span>
+        <span aria-hidden="true">·</span>
+        <span>{{ featured.read_time_min }} min read</span>
+        {% if featured.published_display %}<span aria-hidden="true">·</span><span>{{ featured.published_display }}</span>{% endif %}
+      </div>
+      <h1 class="hero__title" id="featured-title">
+        <a href="{{ base_url }}/articles/{{ featured.id }}/">{{ featured.title }}</a>
+      </h1>
+      <p class="hero__excerpt">{{ featured.excerpt }}</p>
+      <div class="hero__actions">
+        <a class="btn-primary" href="{{ base_url }}/articles/{{ featured.id }}/">
+          开始精读
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+        </a>
+        {% if featured.tags %}
+        <div class="chip-row">
+          {% for tag in featured.tags[:3] %}<span class="chip">{{ tag }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <figure class="hero__figure">
+      <div class="hero__cover">
+        {% if featured.cover_image %}
+        <img src="{{ featured.cover_image }}" alt="{{ featured.title }} 封面" loading="eager" referrerpolicy="no-referrer">
+        {% else %}
+        {# 印刷排版艺术封面兜底：暖色纸纹 + 超大首字母水印 + 期刊大字 + 金句 #}
+        <div class="art-cover" role="img" aria-label="{{ featured.source }} 排版艺术封面">
+          <span class="art-cover__watermark" aria-hidden="true">{{ featured.first_letter }}</span>
+          <div class="art-cover__top">
+            <span class="art-cover__source">{{ featured.source }}</span>
+            <span class="art-cover__rule" aria-hidden="true"></span>
+            <span class="mono">{{ featured.published_display or 'Issue' }}</span>
+          </div>
+          <blockquote class="art-cover__quote">“{{ featured.kicker or featured.title }}”</blockquote>
+          <div class="art-cover__bottom">
+            <span>{{ featured.difficulty }} · {{ featured.word_count }} words</span>
+            <span>{{ site.title }}</span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </figure>
+  </section>
+  {% endif %}
+
+  {% if all_articles %}
+  {# ---------------- 筛选胶囊栏 ---------------- #}
+  <section class="filter-bar" aria-label="筛选">
+    <div class="filter-group" data-filter-group="source">
+      <span class="filter-group__label">Source</span>
+      <button class="pill is-active" type="button" data-filter="source" data-value="all">全部</button>
+      {% for s in sources %}
+      <button class="pill" type="button" data-filter="source" data-value="{{ s.id }}">{{ s.name }}</button>
+      {% endfor %}
+    </div>
+    <div class="filter-group" data-filter-group="level">
+      <span class="filter-group__label">Level</span>
+      <button class="pill is-active" type="button" data-filter="level" data-value="all">全部</button>
+      {% for d in difficulties %}
+      <button class="pill" type="button" data-filter="level" data-value="{{ d }}">{{ d }}</button>
+      {% endfor %}
+    </div>
+    <div class="filter-group" data-filter-group="state">
+      <span class="filter-group__label">State</span>
+      <button class="pill is-active" type="button" data-filter="state" data-value="all">全部</button>
+      <button class="pill" type="button" data-filter="state" data-value="unread">未读</button>
+      <button class="pill" type="button" data-filter="state" data-value="read">已读</button>
+    </div>
+  </section>
+
+  {# ---------------- Bento 网格 ---------------- #}
+  <section class="grid" data-role="grid" aria-label="精选刊物">
+    {% for a in articles %}
+    <article class="card"
+             data-article-id="{{ a.id }}"
+             data-source="{{ a.source_id or a.source }}"
+             data-level="{{ a.difficulty }}"
+             data-read="0">
+      <div class="card__top">
+        <span class="card__source">{{ a.source }}</span>
+        <span>{{ a.published_display }}</span>
+        <span class="card__read-dot" data-role="read-dot" aria-hidden="true"></span>
+      </div>
+      <h2 class="card__title"><a href="{{ base_url }}/articles/{{ a.id }}/">{{ a.title }}</a></h2>
+      <p class="card__excerpt">{{ a.excerpt }}</p>
+      <div class="card__bottom">
+        <span class="badge-level">{{ a.difficulty }}</span>
+        <span>{{ a.word_count }} words</span>
+        <span>{{ a.read_time_min }} min</span>
+        {% if a.vocab_count %}<span>{{ a.vocab_count }} vocab</span>{% endif %}
+      </div>
+    </article>
+    {% endfor %}
+
+    <div class="empty-state" data-role="empty-state" hidden>
+      <p class="empty-state__title">这里还没有匹配的刊物</p>
+      <p>试着放宽筛选条件，回到全部精选。</p>
+      <p><button class="btn-ghost" type="button" data-action="reset-filters" style="max-width:200px;margin:0 auto;">重置筛选</button></p>
+    </div>
+  </section>
+  {% else %}
+  <section class="blank-slate">
+    <h2>第一期正在排版中</h2>
+    <p>还没有已发布的精读文章。运行 <code>python main.py --pipeline full</code> 完成采集与解析，或把已解析的 JSON 放入 <code>data/parsed/</code> 后执行 <code>python main.py --build-only</code>。</p>
+  </section>
+  {% endif %}
+
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ base_url }}/static/js/search.js" defer></script>
+{% endblock %}

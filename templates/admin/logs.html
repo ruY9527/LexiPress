@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}实时日志 · LexiPress Admin{% endblock %}
+{% block page_title %}采集任务与实时日志{% endblock %}
+{% block page_sub %}Live Pipeline{% endblock %}
+
+{% block topbar_actions %}
+<button class="btn btn--sm btn--ghost" data-action="clear-log">清空视图</button>
+<button class="btn btn--sm" data-action="toggle-autoscroll" data-role="autoscroll-btn">自动滚动：开</button>
+<button class="btn btn--sm btn--primary" data-action="run-crawl">立即全源采集</button>
+{% endblock %}
+
+{% block content %}
+<div class="run-banner" data-role="run-banner" hidden>
+  <span class="dot dot--running"></span>
+  <span data-role="run-banner-text">任务运行中…</span>
+  <div class="progress" style="flex:1;min-width:120px;max-width:280px;">
+    <div class="progress__fill" data-role="run-progress"></div>
+  </div>
+  <span class="mono" data-role="run-progress-text" style="font-size:0.66rem;">0%</span>
+</div>
+
+<section class="terminal">
+  <div class="terminal__bar">
+    <span class="terminal__dot terminal__dot--r"></span>
+    <span class="terminal__dot terminal__dot--y"></span>
+    <span class="terminal__dot terminal__dot--g"></span>
+    <span class="terminal__label" data-role="connection-label">Connecting…</span>
+    <div class="terminal__filters">
+      <button class="terminal__filter is-active" data-level="ALL">ALL</button>
+      <button class="terminal__filter" data-level="INFO">INFO</button>
+      <button class="terminal__filter" data-level="WARN">WARN</button>
+      <button class="terminal__filter" data-level="ERROR">ERROR</button>
+    </div>
+  </div>
+  <div class="terminal__out" data-role="terminal-out" aria-live="polite"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin-static/logs.js" defer></script>
+{% endblock %}

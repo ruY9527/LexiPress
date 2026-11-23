@@ -1,0 +1,229 @@
+{
+  "id": "2026-11-21-mit-tr-power-is-the-new-bottleneck",
+  "url_hash": "9a1239e18233a4dd30351566b21c6a766951600cc841484080a17175c972834f",
+  "title": "Power Is the New Bottleneck",
+  "source": "MIT Technology Review",
+  "source_id": "mit-tech-review",
+  "author": "Priya Raman",
+  "published_at": "2026-11-21",
+  "original_url": "https://www.technologyreview.com/2026/11/21/power-is-the-new-bottleneck/",
+  "cover_image": "",
+  "tags": [
+    "Technology",
+    "Infrastructure",
+    "Energy"
+  ],
+  "difficulty": "C1",
+  "word_count": 395,
+  "read_time_min": 2,
+  "score": 8.7,
+  "audio_url": "",
+  "parsed_at": "2026-11-23T12:21:14+00:00",
+  "parser_mode": "llm",
+  "overview": {
+    "summary_zh": "数据中心的成本结构正在发生位移：瓶颈从硅片转移到电力与并网。决定项目成败的变量，越来越多地落在围墙之外——电网改革速度、选址政治与电气劳动力供给。",
+    "takeaways": [
+      "设施用电抵达处理器的比例，是比资本开支更能说明效率的指标。",
+      "低效往往源于采购与设计假设，而非工程能力不足。",
+      "并网排队已成为最具决定性的约束，且并非简单先到先得。"
+    ],
+    "background": "MIT Technology Review 的基建类报道，背景是全球算力扩张与电网投资周期错配，以及小型模块化反应堆与燃气轮机重新进入选址讨论。",
+    "structure": "以数字切入（能效比例）→ 归因（采购假设）→ 瓶颈迁移 → 并网队列 → 就地发电的合理性 → 战略含义。"
+  },
+  "paragraphs": [
+    {
+      "index": 0,
+      "en": "The data centre industry has a number that it prefers not to say out loud. It is not the capital cost of a new campus, nor the water consumed by cooling towers, though both are substantial. It is the fraction of a facility's electricity that actually reaches a processor. In well-run modern sites, that figure is around 90%; in the older stock still carrying much of the world's workload, it is considerably worse.",
+      "zh": "数据中心行业有一个它不太愿意公开说出的数字。它不是新建园区的资本开支，也不是冷却塔消耗的水——虽然这两者都相当可观。它是设施用电中真正抵达处理器的比例。在运营良好的现代机房，这个数字约为 90%；而在仍承载着全球大量工作负载的旧设施里，它要差得多。"
+    },
+    {
+      "index": 1,
+      "en": "This is not a story about engineering incompetence. The inefficiency is largely a consequence of how capacity was bought: in increments, under pressure, with an eye on time-to-service rather than on lifetime thermodynamics. A facility designed around the assumption that compute would remain expensive will distribute power differently from one designed around the assumption that it would become cheap and plentiful.",
+      "zh": "这并不是一个关于工程无能的故事。这种低效率在很大程度上是容量采购方式的后果：分批次、在压力之下、着眼于上线时间而非全生命周期的热力学。一个按“算力将持续昂贵”这一假设设计的数据中心，其配电方式会不同于按“算力将变得廉价而充裕”设计的机房。"
+    },
+    {
+      "index": 2,
+      "en": "The consequence is that the cost of computation is increasingly a power problem rather than a silicon problem. Chip designers can now pack more arithmetic into less space than the surrounding infrastructure can usefully feed. The bottleneck has migrated outward — from the transistor to the transformer, from the processor to the substation, from the server to the queue for a grid connection that may take years to clear.",
+      "zh": "其后果是，计算成本越来越是一个电力问题，而不是一个硅的问题。芯片设计师如今能在更小的空间里塞进更多算力，多到周边基础设施无法有效供给。瓶颈向外迁移了——从晶体管到变压器，从处理器到变电站，从服务器到并网排队，而这条队伍可能要等上数年。"
+    },
+    {
+      "index": 3,
+      "en": "Grid interconnection queues have become the industry's least glamorous constraint and its most decisive one. In several markets the wait for a new high-voltage connection is measured in years, and the queue is not first-come-first-served in any simple sense: it is shaped by studies, deposits, and the willingness of a developer to accept curtailment. A project can be technically ready and commercially stalled at the same time.",
+      "zh": "并网排队已成为这个行业最不光鲜、也最具决定性的约束。在若干市场，等待一条新的高压接入要按年计算，而这支队伍也并非简单意义上的先到先得：它由研究评估、押金，以及开发商是否愿意接受限电共同塑造。一个项目完全可能技术上已就绪，商业上却停滞不前。"
+    },
+    {
+      "index": 4,
+      "en": "Against this backdrop, the enthusiasm for on-site generation becomes legible. Gas turbines can be permitted and built faster than transmission lines; small modular reactors promise a slower but steadier answer; solar-plus-storage is cheap where land is. None of these is a universal solution, and each shifts the problem rather than dissolving it. But they shorten the distance between a decision and a watt.",
+      "zh": "在这一背景下，对就地发电的热情就变得可以理解了。燃气轮机比输电线路更容易获得许可、建设更快；小型模块化反应堆承诺一个更慢但更稳的答案；在土地便宜的地方，光伏加储能成本很低。这些都不是普适解法，每一种都只是转移问题而非消解问题。但它们缩短了从决策到一度电之间的距离。"
+    },
+    {
+      "index": 5,
+      "en": "The strategic implication is uncomfortable for an industry that has spent two decades optimising inside the fence line. The decisive variables now sit outside it: the pace of grid reform, the politics of siting, the availability of skilled electrical labour. Firms that treat these as externalities will find their capital plans repeatedly surprised by them. Firms that treat them as core engineering will not.",
+      "zh": "对于一个用二十年时间在围墙之内做优化的行业来说，这一战略含义令人不适。决定性的变量如今位于围墙之外：电网改革的速度、选址的政治、熟练电气劳动力的可得性。把这些当作外部性的公司，会发现自己的资本计划一再被它们打乱；把它们当作核心工程的公司则不会。"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "v1",
+      "term": "substantial",
+      "phonetic": "/səbˈstæn.ʃəl/",
+      "pos": "adj.",
+      "meaning_zh": "可观的；相当大的",
+      "note": "比 large 更正式，常用于数量与影响",
+      "para_index": 0
+    },
+    {
+      "id": "v2",
+      "term": "fraction",
+      "phonetic": "/ˈfræk.ʃən/",
+      "pos": "n.",
+      "meaning_zh": "份额；一小部分",
+      "note": "a fraction of：……的一部分（可大可小，视语境）",
+      "para_index": 0
+    },
+    {
+      "id": "v3",
+      "term": "increments",
+      "phonetic": "/ˈɪŋ.krɪ.mənts/",
+      "pos": "n.",
+      "meaning_zh": "增量；分批的份额",
+      "note": "in increments：分批次地",
+      "para_index": 1
+    },
+    {
+      "id": "v4",
+      "term": "thermodynamics",
+      "phonetic": "/ˌθɜː.məʊ.daɪˈnæm.ɪks/",
+      "pos": "n.",
+      "meaning_zh": "热力学",
+      "note": "此处指机房长期的热与能效表现",
+      "para_index": 1
+    },
+    {
+      "id": "v5",
+      "term": "bottleneck",
+      "phonetic": "/ˈbɒt.əl.nek/",
+      "pos": "n.",
+      "meaning_zh": "瓶颈；制约环节",
+      "note": "the bottleneck has migrated：瓶颈已转移",
+      "para_index": 2
+    },
+    {
+      "id": "v6",
+      "term": "migrated",
+      "phonetic": "/maɪˈɡreɪ.tɪd/",
+      "pos": "v.",
+      "meaning_zh": "迁移；转移",
+      "note": "此处为隐喻用法，非人口迁徙",
+      "para_index": 2
+    },
+    {
+      "id": "v7",
+      "term": "substation",
+      "phonetic": "/ˈsʌbˌsteɪ.ʃən/",
+      "pos": "n.",
+      "meaning_zh": "变电站",
+      "note": "电网术语，与 transformer 常并列出现",
+      "para_index": 2
+    },
+    {
+      "id": "v8",
+      "term": "interconnection",
+      "phonetic": "/ˌɪn.tə.kəˈnek.ʃən/",
+      "pos": "n.",
+      "meaning_zh": "互联；并网接入",
+      "note": "grid interconnection queue：并网排队",
+      "para_index": 3
+    },
+    {
+      "id": "v9",
+      "term": "curtailment",
+      "phonetic": "/kɜːˈteɪl.mənt/",
+      "pos": "n.",
+      "meaning_zh": "限电；削减出力",
+      "note": "accept curtailment：接受被限电的风险",
+      "para_index": 3
+    },
+    {
+      "id": "v10",
+      "term": "stalled",
+      "phonetic": "/stɔːld/",
+      "pos": "adj.",
+      "meaning_zh": "停滞的；卡住的",
+      "note": "commercially stalled：商业上停滞",
+      "para_index": 3
+    },
+    {
+      "id": "v11",
+      "term": "legible",
+      "phonetic": "/ˈledʒ.ə.bəl/",
+      "pos": "adj.",
+      "meaning_zh": "可读的；（此处）变得可理解的",
+      "note": "本义“字迹清晰”，此处引申为“说得通”",
+      "para_index": 4
+    },
+    {
+      "id": "v12",
+      "term": "modular",
+      "phonetic": "/ˈmɒd.jə.lər/",
+      "pos": "adj.",
+      "meaning_zh": "模块化的",
+      "note": "small modular reactor（SMR）：小型模块化反应堆",
+      "para_index": 4
+    },
+    {
+      "id": "v13",
+      "term": "dissolving",
+      "phonetic": "/dɪˈzɒl.vɪŋ/",
+      "pos": "v.",
+      "meaning_zh": "消解；使消失",
+      "note": "shifts the problem rather than dissolving it：转移而非消解",
+      "para_index": 4
+    },
+    {
+      "id": "v14",
+      "term": "externalities",
+      "phonetic": "/ˌek.stɜːˈnæl.ə.tiz/",
+      "pos": "n.",
+      "meaning_zh": "外部性（未计入决策的成本或收益）",
+      "note": "经济学核心概念，此处指被企业忽略的外部约束",
+      "para_index": 5
+    },
+    {
+      "id": "v15",
+      "term": "decisive",
+      "phonetic": "/dɪˈsaɪ.sɪv/",
+      "pos": "adj.",
+      "meaning_zh": "决定性的；关键的",
+      "note": "decisive variables：决定性变量",
+      "para_index": 5
+    }
+  ],
+  "sentences": [
+    {
+      "en": "It is not the capital cost of a new campus, nor the water consumed by cooling towers, though both are substantial.",
+      "structure": "主干：It is not A, nor B（并列否定） ｜ 过去分词短语作定语：consumed by cooling towers ｜ 让步状语从句：though both are substantial",
+      "zh": "它不是新建园区的资本开支，也不是冷却塔消耗的水——虽然这两者都相当可观。"
+    },
+    {
+      "en": "A facility designed around the assumption that compute would remain expensive will distribute power differently from one designed around the assumption that it would become cheap and plentiful.",
+      "structure": "主干：A facility … will distribute power differently from one ｜ 过去分词短语作定语：designed around the assumption ｜ 两个同位语从句：that compute would remain expensive / that it would become cheap and plentiful",
+      "zh": "一个按“算力将持续昂贵”这一假设设计的数据中心，其配电方式会不同于按“算力将变得廉价而充裕”设计的机房。"
+    },
+    {
+      "en": "Chip designers can now pack more arithmetic into less space than the surrounding infrastructure can usefully feed.",
+      "structure": "主干：Chip designers can pack more arithmetic into less space ｜ 比较结构：more … than the surrounding infrastructure can usefully feed（比较对象为“可供给的量”）",
+      "zh": "芯片设计师如今能在更小的空间里塞进更多算力，多到周边基础设施无法有效供给。"
+    },
+    {
+      "en": "The queue is not first-come-first-served in any simple sense: it is shaped by studies, deposits, and the willingness of a developer to accept curtailment.",
+      "structure": "主干：The queue is not first-come-first-served ｜ 冒号后为解释性并列句 ｜ 被动结构：is shaped by A, B, and C",
+      "zh": "这支队伍也并非简单意义上的先到先得：它由研究评估、押金，以及开发商是否愿意接受限电共同塑造。"
+    },
+    {
+      "en": "Firms that treat these as externalities will find their capital plans repeatedly surprised by them.",
+      "structure": "主干：Firms … will find their capital plans surprised ｜ 定语从句：that treat these as externalities ｜ find + 宾语 + 过去分词补足语（宾补结构）",
+      "zh": "把这些当作外部性的公司，会发现自己的资本计划一再被它们打乱。"
+    }
+  ]
+}

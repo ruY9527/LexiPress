@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}文章候选池 · LexiPress Admin{% endblock %}
+{% block page_title %}文章候选池{% endblock %}
+{% block page_sub %}Articles Workbench{% endblock %}
+
+{% block topbar_actions %}
+<button class="btn btn--sm" data-action="run-crawl">立即采集</button>
+{% endblock %}
+
+{% block content %}
+{# ---------------- 筛选区 ---------------- #}
+<section class="card" style="margin-bottom:16px;">
+  <div class="card__body" style="padding:14px 18px;">
+    <div class="row" style="margin-bottom:12px;">
+      <div class="tabs" data-role="status-tabs">
+        {% for tab in status_tabs %}
+        <button class="tab {{ 'is-active' if loop.first }}" data-status="{{ tab.value }}">{{ tab.label }}</button>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <input class="input input--grow" type="search" data-role="search" placeholder="搜索标题或来源…">
+      <select class="select" data-role="source-filter">
+        <option value="all">全部来源</option>
+        {% for s in sources %}
+        <option value="{{ s.id }}">{{ s.name }}</option>
+        {% endfor %}
+      </select>
+      <select class="select" data-role="sort">
+        <option value="score">按推荐分</option>
+        <option value="published">按发布时间</option>
+        <option value="words">按词数</option>
+        <option value="recent">按抓取时间</option>
+        <option value="title">按标题</option>
+      </select>
+      <button class="btn btn--sm" data-action="reload">刷新</button>
+    </div>
+  </div>
+</section>
+
+{# ---------------- 文章表 ---------------- #}
+<section class="card">
+  <div class="card__body card__body--flush">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:34px;"><input class="checkbox" type="checkbox" data-role="check-all" aria-label="全选"></th>
+            <th>文章标题</th>
+            <th>来源</th>
+            <th>发布</th>
+            <th>词数</th>
+            <th>推荐分</th>
+            <th>状态</th>
+            <th style="text-align:right;">操作</th>
+          </tr>
+        </thead>
+        <tbody data-role="article-rows">
+          <tr><td colspan="8" class="empty">正在加载…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <span class="pager__info" data-role="pager-info">—</span>
+      <div class="row row--tight">
+        <button class="btn btn--sm" data-action="prev-page" disabled>上一页</button>
+        <button class="btn btn--sm" data-action="next-page" disabled>下一页</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------------- 批量操作浮动条 ---------------- #}
+<div class="batch-bar" data-role="batch-bar">
+  <span>已选 <strong data-role="batch-count">0</strong> 篇</span>
+  <button class="btn btn--sm" data-action="batch-shortlist">批量精选</button>
+  <button class="btn btn--sm" data-action="batch-parse">批量解析</button>
+  <button class="btn btn--sm" data-action="batch-reject">批量淘汰</button>
+  <button class="btn btn--sm" data-action="batch-clear">取消</button>
+</div>
+
+{# ---------------- 正文预览抽屉 ---------------- #}
+<div class="drawer-overlay" data-role="drawer-overlay"></div>
+<aside class="drawer" data-role="drawer" aria-label="文章预览">
+  <div class="drawer__head">
+    <div style="min-width:0;">
+      <h2 class="drawer__title" data-role="drawer-title">加载中…</h2>
+      <div class="drawer__meta" data-role="drawer-meta"></div>
+    </div>
+    <button class="icon-btn" data-action="close-drawer" aria-label="关闭">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <div class="drawer__body" data-role="drawer-body"></div>
+  <div class="drawer__foot" data-role="drawer-foot"></div>
+</aside>
+{% endblock %}
+
+{% block scripts %}
+<script src="/admin-static/articles.js" defer></script>
+{% endblock %}

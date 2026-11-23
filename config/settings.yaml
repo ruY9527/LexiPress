@@ -1,0 +1,40 @@
+site:
+  title: "LexiPress"
+  subtitle: "Curated English Reading Studio"
+  description: "外刊精读工坊 · 每日精选英文外刊，逐段双语对照、语境生词与长难句拆解"
+  base_url: "/LexiPress"            # GitHub Pages 仓库子路径，无末尾斜杠；本地根路径预览可设为 ""
+  articles_per_page: 24
+  default_theme: "paper"            # paper | sepia | ink
+  author: "LexiPress Studio"
+
+harvester:
+  max_concurrency: 5
+  request_timeout_sec: 15
+  max_retries: 2
+  freshness_hours: 72               # 优先保留最近 72 小时内的文章
+  min_word_count: 500
+  max_word_count: 4500
+  ideal_word_range: [800, 2800]     # 最适合外刊精读的篇幅区间（满分档）
+  daily_publish_limit: 3            # Actions 全自动模式每日最多精选解析篇数
+  per_source_limit: 12              # 单源每轮最多取用条目数
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+  accept_language: "en-US,en;q=0.9"
+  score_weights:                    # 综合初筛分权重（合计 10）
+    source_weight: 4.0
+    freshness: 3.0
+    length_fit: 3.0
+
+llm:
+  enabled: true                     # 若环境变量 LLM_API_KEY 为空则自动降级为规则模式
+  base_url: "https://api.deepseek.com/v1"
+  model: "deepseek-chat"
+  temperature: 0.3
+  translate_batch_size: 10
+  max_retries: 2
+  max_input_words: 3500             # 阶段 B 全篇提炼的智能截断阈值
+  vocab_target: [10, 15]            # 期望提取的生词数量区间
+  sentence_target: [3, 5]           # 期望提取的长难句数量区间
+
+admin:
+  host: "127.0.0.1"
+  port: 8088

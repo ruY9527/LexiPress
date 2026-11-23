@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="{{ site.default_theme or 'paper' }}" data-font="m">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.title }} · {{ site.subtitle }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ site.description or site.subtitle }}{% endblock %}">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{% block og_title %}{{ site.title }}{% endblock %}">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:description" content="{{ site.description or site.subtitle }}">
+
+  {# 首屏防闪烁：最早时间点读取 localStorage 并落地 data-theme / data-font #}
+  <script>
+  (function () {
+    try {
+      var root = document.documentElement;
+      var theme = localStorage.getItem('lexipress_theme');
+      if (theme !== 'paper' && theme !== 'sepia' && theme !== 'ink') {
+        theme = '{{ site.default_theme or "paper" }}';
+      }
+      root.setAttribute('data-theme', theme);
+      var prefs = JSON.parse(localStorage.getItem('lexipress_reader_prefs') || '{}');
+      var size = (prefs && prefs.fontSize) || 'm';
+      if (size !== 's' && size !== 'm' && size !== 'l') { size = 'm'; }
+      root.setAttribute('data-font', size);
+    } catch (e) { /* localStorage 不可用时静默回退到默认主题 */ }
+  })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="{{ base_url }}/static/css/tokens.css">
+  <link rel="stylesheet" href="{{ base_url }}/static/css/site.css">
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <div class="brand">
+      <a class="brand__mark" href="{{ base_url }}/">{{ site.title }}</a>
+      <span class="brand__tagline">Curated English Reading</span>
+    </div>
+    <div class="header-actions">
+      <button class="search-trigger" type="button" data-action="open-search" aria-label="搜索文章（快捷键 Command K）">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>
+        <span class="search-trigger__label">Search…</span>
+        <span class="search-trigger__key" aria-hidden="true">⌘K</span>
+      </button>
+      <button class="icon-button" type="button" data-action="cycle-theme" aria-label="切换护眼主题" title="切换主题（Paper → Sepia → Ink）">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"></path></svg>
+      </button>
+      <button class="icon-button" type="button" data-action="open-drawer" aria-label="打开学习工作台（生词本）" title="学习工作台">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"></path></svg>
+        <span class="icon-button__badge" data-role="vocab-badge" hidden>0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <span>{{ site.title }} · {{ build_time }}</span>
+    <span>Curated from open sources · Original rights belong to each publication</span>
+  </div>
+</footer>
+
+{# ---------------- 全局搜索命令面板 ---------------- #}
+<div class="overlay" data-role="overlay" data-target="palette" hidden></div>
+<div class="palette" data-role="palette" role="dialog" aria-modal="true" aria-label="全站搜索">
+  <div class="palette__input-row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>
+    <input id="palette-input" type="text" placeholder="搜索标题、来源、主题或生词…" autocomplete="off" spellcheck="false" aria-label="搜索关键词">
+  </div>
+  <ul class="palette__results" data-role="palette-results"></ul>
+  <div class="palette__footer">
+    <span>↑↓ 选择</span><span>↵ 打开</span><span>Esc 关闭</span>
+  </div>
+</div>
+
+{# ---------------- 学习工作台抽屉 ---------------- #}
+<div class="overlay" data-role="overlay" data-target="drawer" hidden></div>
+<aside class="drawer" data-role="drawer" aria-label="学习工作台">
+  <div class="drawer__head">
+    <h2 class="drawer__title">学习工作台</h2>
+    <button class="icon-button" type="button" data-action="close-drawer" aria-label="关闭">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <div class="stats-row">
+      <div class="stat-cell"><span class="stat-cell__value" data-role="stat-streak">0</span><span class="stat-cell__label">Streak</span></div>
+      <div class="stat-cell"><span class="stat-cell__value" data-role="stat-read">0</span><span class="stat-cell__label">Read</span></div>
+      <div class="stat-cell"><span class="stat-cell__value" data-role="stat-vocab">0</span><span class="stat-cell__label">Words</span></div>
+    </div>
+    <input class="drawer__search" type="text" data-role="vocab-filter" placeholder="过滤生词…" aria-label="过滤生词">
+    <ul class="vocab-list" data-role="vocab-list"></ul>
+    <p class="empty-hint" data-role="vocab-empty">还没有收藏生词。阅读时点击带虚线下划线的词，即可一键加入生词本。</p>
+  </div>
+  <div class="drawer__foot">
+    <button class="btn-ghost" type="button" data-action="export-anki">导出 Anki CSV</button>
+    <button class="btn-ghost" type="button" data-action="export-markdown">导出 Markdown</button>
+  </div>
+</aside>
+
+<div class="toast" data-role="toast" role="status" aria-live="polite"></div>
+
+<script>
+  window.LEXIPRESS = {
+    baseUrl: {{ base_url|tojson }},
+    defaultTheme: {{ (site.default_theme or 'paper')|tojson }},
+    page: {{ page|default('home')|tojson }}
+  };
+</script>
+<script src="{{ base_url }}/static/js/app.js" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

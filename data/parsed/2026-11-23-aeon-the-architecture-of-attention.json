@@ -1,0 +1,234 @@
+{
+  "id": "2026-11-23-aeon-the-architecture-of-attention",
+  "url_hash": "7f220d1e6f428a61c42b23b826e7bcb177635b9f923b7753adf51b8ba7758c71",
+  "title": "The Architecture of Attention",
+  "source": "Aeon",
+  "source_id": "aeon",
+  "author": "Jane Doe",
+  "published_at": "2026-11-23",
+  "original_url": "https://aeon.co/essays/the-architecture-of-attention",
+  "cover_image": "",
+  "tags": [
+    "Psychology",
+    "Culture",
+    "Design"
+  ],
+  "difficulty": "C1",
+  "word_count": 503,
+  "read_time_min": 3,
+  "score": 9.4,
+  "audio_url": "",
+  "parsed_at": "2026-11-23T12:21:14+00:00",
+  "parser_mode": "llm",
+  "overview": {
+    "summary_zh": "注意力并非个人意志的产物，而是被房间、日程与默认设置共同建造出来的公共资源。作者借阅览室的历史说明：静默之所以生产专注，是因为它让分心在社会层面变得昂贵；而数字环境恰恰把这一逻辑颠倒过来。",
+    "takeaways": [
+      "注意力是“建筑性”的：空间与制度安排塑造了专注的可能性，而非仅仅依赖意志力。",
+      "注意力公地可以被圈占、耗竭，也可以被有意修复——关键在于默认设置。",
+      "可靠的干预往往最不光鲜：关上的门、放在另一间屋子的设备、无人期待回复的一小时。"
+    ],
+    "background": "Aeon 长期刊发跨学科思想随笔，本文属其“注意力与数字生活”专题，写作语境是过去十年关于注意力经济的公共讨论。",
+    "structure": "现象切入（历史上的注意力）→ 概念转折（货币化隐喻的代价）→ 建筑学论证（阅览室案例）→ 反转（数字环境）→ 实践推论 → 社会层面的追问。"
+  },
+  "paragraphs": [
+    {
+      "index": 0,
+      "en": "For most of human history, attention was not something a person owned outright. It was borrowed from the room: from the fire that had to be watched, the child who had to be minded, the horizon that had to be scanned for weather or riders. To be attentive was to be answerable to something outside yourself, and the quality of a life could be read in how faithfully that answer was given.",
+      "zh": "在人类历史的大部分时间里，注意力并不是一个人可以完全拥有的东西。它更像是从所处的空间里借来的：火堆需要看守，孩子需要照看，地平线需要不时张望，以便发现天气变化或骑马而来的访客。专注意味着对自身之外的某样东西负责，而一个人生活的质地，也可以从他对这份责任履行的忠实程度中看出来。"
+    },
+    {
+      "index": 1,
+      "en": "The modern word carries a different weight. We speak of paying attention, as though it were currency, and of spending it wisely, as though a day had a fixed exchange rate. This metaphor is not innocent. Once attention is conceived as a scarce resource that individuals possess, it becomes natural to ask who is entitled to extract it, and at what price — and equally natural for entire industries to organise themselves around the answer.",
+      "zh": "现代语境里的这个词带着另一重分量。我们说“付出”注意力，仿佛它是一种货币；又说要“明智地花掉”它，仿佛一天有一个固定的汇率。这个比喻并不无辜。一旦注意力被设想为个体所拥有的稀缺资源，追问谁有权开采它、以什么价格开采，就变得顺理成章；整个行业围绕这个答案组织自身，也同样顺理成章。"
+    },
+    {
+      "index": 2,
+      "en": "What the metaphor obscures is the extent to which attention is built rather than held. A room can be arranged so that conversation is easy and interruption is difficult, or the reverse. A street can be designed to reward lingering or to hurry people along. These are not decorative choices. They are the architecture of an attentional commons, and like any commons, it can be enclosed, depleted, or deliberately restored.",
+      "zh": "这个比喻所遮蔽的，是注意力在多大程度上是被建造出来的，而非被持有的。一间屋子可以被安排得让交谈轻松、打扰困难，也可以反过来。一条街道可以被设计成鼓励人逗留，或催促人快走。这些都不是装饰性的选择，而是一片注意力公地的建筑学；而和任何公地一样，它可以被圈占、被耗尽，也可以被有意修复。"
+    },
+    {
+      "index": 3,
+      "en": "Consider the reading room. For a century and a half it was among the most carefully engineered spaces in civic life: long tables aligned to a single source of daylight, catalogues placed at the threshold so that the walk to a shelf was itself a transition, and a rule of silence that was less about noise than about the visible consent of everyone present. The silence did not merely permit concentration; it produced it, by making distraction socially expensive.",
+      "zh": "不妨想想阅览室。在一个半世纪里，它一直是公共生活中设计得最用心的空间之一：长桌朝向唯一的自然光源排列，目录柜放在入口处，让走向书架的那段路本身成为一种过渡，而那条静默的规矩与其说关乎噪音，不如说关乎在场每个人可见的同意。这份静默不只是允许专注，它生产专注——因为它让分心在社会层面变得代价高昂。"
+    },
+    {
+      "index": 4,
+      "en": "Digital environments invert that logic with impressive efficiency. They make distraction cheap and concentration faintly embarrassing, as though stillness were a failure to participate. The result is not that people have become weaker willed, but that the materials around them have been re-engineered to reward a different behaviour. Blaming individuals for this is like blaming a pedestrian for the absence of pavements.",
+      "zh": "数字环境以惊人的效率把这一逻辑颠倒过来。它们让分心变得廉价，让专注反而略显尴尬，仿佛静止不动是一种不参与。结果并不是人们变得更意志薄弱，而是周遭的材料被重新设计，以奖励另一种行为。为此责备个人，就像因为没有人行道而责备行人。"
+    },
+    {
+      "index": 5,
+      "en": "There is a practical corollary. If attention is architectural, then it can be rebuilt deliberately — not through resolutions, which are fragile, but through rooms, schedules and defaults, which are not. The most reliable interventions are the least heroic: a door that closes, a device that lives in another room, an hour in which nobody expects a reply. We tend to underestimate these because they are unglamorous, and to overestimate willpower because it feels like character.",
+      "zh": "这里有一个实际的推论。如果注意力是建筑性的，那它就可以被有意重建——不是靠决心，因为决心脆弱；而是靠房间、日程与默认设置，因为它们并不脆弱。最可靠的干预往往最不英勇：一扇关上的门，一台放在另一个房间的设备，一段没有人期待回复的时间。我们倾向于低估这些，因为它们不够光鲜；又倾向于高估意志力，因为它感觉像品格。"
+    },
+    {
+      "index": 6,
+      "en": "The deeper question is what kind of attention a society wishes to make easy. Every arrangement answers it, whether or not anyone states the answer aloud. A culture that furnishes its public spaces for lingering has decided something about the worth of unhurried thought; one that furnishes them for throughput has decided something else. The choice is rarely presented as a choice, which is precisely why it deserves to be named.",
+      "zh": "更深一层的问题是：一个社会希望让哪一种注意力变得容易？每一种安排都在回答这个问题，无论有没有人把答案说出口。一个把公共空间布置成供人逗留的文化，已经就从容思考的价值做出了决断；一个把它们布置成追求吞吐量的文化，则做出了另一种决断。这个选择很少被摆到台面上作为选择，而这恰恰是它值得被点名的原因。"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "v1",
+      "term": "answerable",
+      "phonetic": "/ˈɑːn.sər.ə.bəl/",
+      "pos": "adj.",
+      "meaning_zh": "对……负责的；须作出交代的",
+      "note": "常与 to 连用：be answerable to someone for something",
+      "para_index": 0
+    },
+    {
+      "id": "v2",
+      "term": "not innocent",
+      "phonetic": "/nɒt ˈɪn.ə.sənt/",
+      "pos": "phrase",
+      "meaning_zh": "并非无邪／中性的（暗含价值预设）",
+      "note": "学术写作中常用来指出某个隐喻本身携带立场",
+      "para_index": 1
+    },
+    {
+      "id": "v3",
+      "term": "entitled",
+      "phonetic": "/ɪnˈtaɪ.təld/",
+      "pos": "adj.",
+      "meaning_zh": "有资格（享有）的；被赋予权利的",
+      "note": "be entitled to do something：有权做某事",
+      "para_index": 1
+    },
+    {
+      "id": "v4",
+      "term": "obscures",
+      "phonetic": "/əbˈskjʊəz/",
+      "pos": "v.",
+      "meaning_zh": "遮蔽；使模糊不清",
+      "note": "obscure 作动词时常用于“使某事实不易被看见”",
+      "para_index": 2
+    },
+    {
+      "id": "v5",
+      "term": "attentional commons",
+      "phonetic": "/əˈten.ʃən.əl ˈkɒm.ənz/",
+      "pos": "phrase",
+      "meaning_zh": "注意力公地（共享且易被耗竭的集体资源）",
+      "note": "由 commons（公地）这一政治经济学概念延伸而来",
+      "para_index": 2
+    },
+    {
+      "id": "v6",
+      "term": "enclosed",
+      "phonetic": "/ɪnˈkləʊzd/",
+      "pos": "adj.",
+      "meaning_zh": "被圈占的；被围起来的",
+      "note": "enclosure 指历史上对公共土地的圈占，此处为隐喻",
+      "para_index": 2
+    },
+    {
+      "id": "v7",
+      "term": "depleted",
+      "phonetic": "/dɪˈpliː.tɪd/",
+      "pos": "adj.",
+      "meaning_zh": "被耗尽的；枯竭的",
+      "note": "常与 resources / soil / energy 搭配",
+      "para_index": 2
+    },
+    {
+      "id": "v8",
+      "term": "engineered",
+      "phonetic": "/ˌen.dʒɪˈnɪəd/",
+      "pos": "adj.",
+      "meaning_zh": "被精心设计（工程化）的",
+      "note": "比 designed 更强调系统性、有意识的技术安排",
+      "para_index": 3
+    },
+    {
+      "id": "v9",
+      "term": "threshold",
+      "phonetic": "/ˈθreʃ.həʊld/",
+      "pos": "n.",
+      "meaning_zh": "门槛；入口处",
+      "note": "此处取字面义，与抽象的“阈限”义并存",
+      "para_index": 3
+    },
+    {
+      "id": "v10",
+      "term": "consent",
+      "phonetic": "/kənˈsent/",
+      "pos": "n.",
+      "meaning_zh": "同意；默许",
+      "note": "visible consent：可见的、彼此默认的同意",
+      "para_index": 3
+    },
+    {
+      "id": "v11",
+      "term": "invert",
+      "phonetic": "/ɪnˈvɜːt/",
+      "pos": "v.",
+      "meaning_zh": "颠倒；使反向",
+      "note": "invert the logic：把逻辑倒转过来",
+      "para_index": 4
+    },
+    {
+      "id": "v12",
+      "term": "faintly",
+      "phonetic": "/ˈfeɪnt.li/",
+      "pos": "adv.",
+      "meaning_zh": "隐约地；略微地",
+      "note": "faintly embarrassing：略微尴尬，程度副词弱化语气",
+      "para_index": 4
+    },
+    {
+      "id": "v13",
+      "term": "corollary",
+      "phonetic": "/kəˈrɒl.ər.i/",
+      "pos": "n.",
+      "meaning_zh": "推论；必然的结果",
+      "note": "formal，常见于论证型文章",
+      "para_index": 5
+    },
+    {
+      "id": "v14",
+      "term": "unglamorous",
+      "phonetic": "/ʌnˈɡlæm.ər.əs/",
+      "pos": "adj.",
+      "meaning_zh": "不光鲜的；不起眼的",
+      "note": "由 glamour 加否定前缀构成",
+      "para_index": 5
+    },
+    {
+      "id": "v15",
+      "term": "throughput",
+      "phonetic": "/ˈθruː.pʊt/",
+      "pos": "n.",
+      "meaning_zh": "吞吐量；处理量",
+      "note": "工程与运营术语，此处指单位时间内通过的人流",
+      "para_index": 6
+    }
+  ],
+  "sentences": [
+    {
+      "en": "Once attention is conceived as a scarce resource that individuals possess, it becomes natural to ask who is entitled to extract it, and at what price — and equally natural for entire industries to organise themselves around the answer.",
+      "structure": "主干：it becomes natural to ask… and [it becomes] equally natural for industries to organise… ｜ 状语从句：Once attention is conceived as…（被动） ｜ 定语从句：that individuals possess 修饰 resource ｜ 宾语从句：who is entitled to extract it, and at what price",
+      "zh": "一旦注意力被设想为个体所拥有的稀缺资源，追问谁有权开采它、以什么价格开采就变得顺理成章；而整个行业围绕这个答案组织自身，也同样顺理成章。"
+    },
+    {
+      "en": "What the metaphor obscures is the extent to which attention is built rather than held.",
+      "structure": "主语从句：What the metaphor obscures ｜ 系动词 is ｜ 表语：the extent ｜ 定语从句：to which attention is built rather than held（介词前置 + 并列被动结构）",
+      "zh": "这个比喻所遮蔽的，是注意力在多大程度上是被建造出来的，而非被持有的。"
+    },
+    {
+      "en": "The silence did not merely permit concentration; it produced it, by making distraction socially expensive.",
+      "structure": "并列句：did not merely permit… ; it produced it ｜ 方式状语：by making distraction socially expensive（make + 宾语 + 形容词补足语）",
+      "zh": "这份静默不只是允许专注，它生产专注——因为它让分心在社会层面变得代价高昂。"
+    },
+    {
+      "en": "Blaming individuals for this is like blaming a pedestrian for the absence of pavements.",
+      "structure": "动名词短语作主语：Blaming individuals for this ｜ 表语：like blaming a pedestrian for…（类比结构，用具体失当的归责反衬结构性原因）",
+      "zh": "为此责备个人，就像因为没有人行道而责备行人。"
+    },
+    {
+      "en": "We tend to underestimate these because they are unglamorous, and to overestimate willpower because it feels like character.",
+      "structure": "主干：We tend to underestimate these … and [tend] to overestimate willpower ｜ 两个并列原因状语从句：because they are unglamorous / because it feels like character",
+      "zh": "我们倾向于低估这些，因为它们不够光鲜；又倾向于高估意志力，因为它感觉像品格。"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}总览仪表盘 · LexiPress Admin{% endblock %}
+{% block page_title %}总览仪表盘{% endblock %}
+{% block page_sub %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="run-banner" data-role="run-banner" hidden>
+  <span class="dot dot--running"></span>
+  <span data-role="run-banner-text">任务运行中…</span>
+  <a class="btn btn--sm btn--ghost" href="/logs" style="margin-left:auto;">查看实时日志 →</a>
+</div>
+
+<section class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi__label"><span class="dot dot--ok"></span>今日新入库</div>
+    <div class="kpi__value" data-kpi="today_new">{{ stats.today_new }}</div>
+    <div class="kpi__hint">候选池 fetched 状态</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi__label"><span class="dot dot--warn"></span>精选待解析</div>
+    <div class="kpi__value" data-kpi="shortlisted">{{ stats.shortlisted }}</div>
+    <div class="kpi__hint">等待 LLM 精读解析</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi__label"><span class="dot dot--ok"></span>已发布</div>
+    <div class="kpi__value" data-kpi="published">{{ stats.published }}</div>
+    <div class="kpi__hint">已进入 data/parsed 与 index.json</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi__label"><span class="dot {{ 'dot--ok' if stats.sources_healthy == stats.sources_total else 'dot--error' }}"></span>订阅源健康度</div>
+    <div class="kpi__value">{{ stats.sources_healthy }} / {{ stats.sources_total }}</div>
+    <div class="kpi__hint">连续失败 ≥3 次标红</div>
+  </div>
+</section>
+
+<div class="quick-bar">
+  <button class="btn btn--primary" data-action="run-crawl">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 14h6l-1 7 8-11h-6l1-7z"></path></svg>
+    立即运行全源采集
+  </button>
+  <div class="row row--tight" style="flex:1;min-width:260px;">
+    <input class="input input--grow" type="url" data-role="manual-url" placeholder="粘贴任意英文文章 URL，立即抓取清洗入库…">
+    <button class="btn" data-action="manual-fetch">抓取</button>
+  </div>
+  <a class="btn" href="/LexiPress/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>
+    打开阅读站预览
+  </a>
+</div>
+
+<div class="split">
+  <section class="card">
+    <div class="card__head">
+      <h2 class="card__title">最近采集任务</h2>
+      <a class="btn btn--sm btn--ghost" href="/logs">全部日志 →</a>
+    </div>
+    <div class="card__body card__body--flush">
+      {% if runs %}
+      <div class="table-wrap">
+        <table class="table table--compact">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>触发</th>
+              <th>开始时间</th>
+              <th>耗时</th>
+              <th>发现</th>
+              <th>新增</th>
+              <th>跳过</th>
+              <th>失败</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for run in runs %}
+            <tr>
+              <td class="mono">{{ run.id }}</td>
+              <td><span class="badge">{{ run.trigger_type }}</span></td>
+              <td class="mono" style="font-size:0.7rem;">{{ run.started_at[5:16] if run.started_at else '—' }}</td>
+              <td class="mono" style="font-size:0.7rem;">
+                {% if run.finished_at and run.started_at %}—{% else %}进行中{% endif %}
+              </td>
+              <td>{{ run.discovered_count }}</td>
+              <td style="color:var(--ok);font-weight:500;">{{ run.fetched_count }}</td>
+              <td>{{ run.skipped_count }}</td>
+              <td style="color:{{ 'var(--error)' if run.failed_count else 'inherit' }};">{{ run.failed_count }}</td>
+              <td>
+                {% if run.status == 'running' %}
+                <span class="badge badge--fetched"><span class="dot dot--running"></span>running</span>
+                {% elif run.status == 'ok' %}
+                <span class="badge badge--published">ok</span>
+                {% else %}
+                <span class="badge badge--failed">{{ run.status }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty">
+        <strong>还没有采集记录</strong>
+        点击上方「立即运行全源采集」开始第一次抓取。
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card__head">
+      <h2 class="card__title">外刊源健康雷达</h2>
+      <a class="btn btn--sm btn--ghost" href="/sources">管理源 →</a>
+    </div>
+    <div class="card__body card__body--flush">
+      <ul class="health-list">
+        {% for s in sources %}
+        <li class="health-item">
+          <span class="dot {{ 'dot--ok' if s.last_status in ['ok','unknown'] and s.consecutive_failures == 0 else ('dot--error' if s.consecutive_failures >= 3 or s.last_status == 'error' else 'dot--warn') }}"></span>
+          <span class="health-item__main">
+            <span class="health-item__name">{{ s.name }}</span>
+            <span class="health-item__meta">
+              {{ s.type_label }}{% if s.avg_latency_ms %} · {{ s.avg_latency_ms|round|int }}ms{% endif %}
+              {% if s.last_fetch_at %} · {{ s.last_fetch_at[5:16] }}{% else %} · 未抓取{% endif %}
+              {% if s.consecutive_failures %} · 连续失败 {{ s.consecutive_failures }}{% endif %}
+            </span>
+          </span>
+          <span class="health-item__count">{{ s.article_count }}</span>
+        </li>
+        {% endfor %}
+        {% if not sources %}
+        <li class="empty">尚未配置任何采集源。</li>
+        {% endif %}
+      </ul>
+    </div>
+  </section>
+</div>
+{% endblock %}

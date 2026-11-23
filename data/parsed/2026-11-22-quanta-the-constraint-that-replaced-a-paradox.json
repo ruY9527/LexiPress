@@ -1,0 +1,229 @@
+{
+  "id": "2026-11-22-quanta-the-constraint-that-replaced-a-paradox",
+  "url_hash": "4ad2ddde9839b1c64bb35f52fac2b88ac4556fa15266cbec92ab43b781949836",
+  "title": "The Constraint That Replaced a Paradox",
+  "source": "Quanta Magazine",
+  "source_id": "quanta",
+  "author": "Daniel Moreau",
+  "published_at": "2026-11-22",
+  "original_url": "https://www.quantamagazine.org/the-constraint-that-replaced-a-paradox/",
+  "cover_image": "",
+  "tags": [
+    "Physics",
+    "Quantum",
+    "Philosophy of Science"
+  ],
+  "difficulty": "C2",
+  "word_count": 374,
+  "read_time_min": 2,
+  "score": 9.1,
+  "audio_url": "",
+  "parsed_at": "2026-11-23T12:21:14+00:00",
+  "parser_mode": "llm",
+  "overview": {
+    "summary_zh": "贝尔不等式把一个哲学争论变成了可由实验裁定的问题，而实验的结果并没有留下悖论，只留下一道约束：实在论、决定论与定域性不能同时成立。这道约束如今直接支撑着量子密码、量子计算与计量学。",
+    "takeaways": [
+      "贝尔的贡献不在数学难度，而在把形而上学的分歧翻译成可执行的实验方案。",
+      "被排除的不是实在论或决定论本身，而是它们与定域性的三者合取。",
+      "一旦纠缠成为工程材料，哲学结论就开始承担技术功能。"
+    ],
+    "background": "本文回应的是近年来“贝尔实验无漏洞化”与量子技术工程化两条线索的交汇，Quanta 的报道风格倾向于把数学结论还原为可叙述的推理过程。",
+    "structure": "历史起点（1964 年贝尔论文）→ 方法论评价（为何重要）→ 实验结果 → 概念澄清 → 学界态度 → 技术回响。"
+  },
+  "paragraphs": [
+    {
+      "index": 0,
+      "en": "In 1964, a young physicist named John Bell published a short paper that asked a question no one had quite known how to pose. If quantum mechanics were true, he wondered, could the world still be made of things that had definite properties before anyone measured them? The answer, expressed as an inequality, was a precise no.",
+      "zh": "1964 年，一位名叫约翰·贝尔的年轻物理学家发表了一篇短文，提出了一个此前没有人真正知道该如何表述的问题。他想：如果量子力学是真的，这个世界是否仍然由那些在被测量之前就拥有确定属性的东西构成？答案以一个不等式呈现，是一个精确的“否”。"
+    },
+    {
+      "index": 1,
+      "en": "The inequality was remarkable not for its mathematics, which was elementary, but for its ambition. It translated a dispute that had smouldered for decades — between those who believed quantum theory was a complete description of reality and those who suspected it was merely a convenient approximation — into something that an experiment could settle. Philosophy became protocol.",
+      "zh": "这个不等式之所以引人注目，不在于它的数学——那是初等的——而在于它的雄心。它把一场闷烧了数十年的争论——相信量子理论是对现实的完整描述的人，与怀疑它只是权宜近似的人之间的争论——转化为某种实验可以裁定的事情。哲学变成了实验方案。"
+    },
+    {
+      "index": 2,
+      "en": "Half a century later, the experiments were done, and Bell was vindicated. Entangled particles, measured far apart, produced correlations that no account of locally pre-existing properties could reproduce. The loopholes closed one by one: detection efficiency, communication, freedom of choice. What remained was not a paradox but a constraint — a hard limit on what kind of world we are allowed to describe.",
+      "zh": "半个世纪后，实验完成了，贝尔得到了证实。彼此相距遥远却纠缠的粒子，在被测量时产生了任何关于局部预先存在属性的解释都无法重现的关联性。各种漏洞逐一被封闭：探测效率、通信、选择自由。留下来的不是一个悖论，而是一种约束——一道关于我们被允许描述何种世界的硬性界限。"
+    },
+    {
+      "index": 3,
+      "en": "What the constraint forbids is precise but easy to overstate. It does not forbid realism, the view that there is a world independent of our observations. Nor does it forbid determinism, the view that everything follows from prior conditions. It forbids the conjunction of the two with locality — the assumption that influences travel no faster than light and that distant events cannot depend on the settings of a nearby dial.",
+      "zh": "这道约束所禁止的东西是精确的，却很容易被夸大。它并不禁止实在论——即存在一个独立于我们观察的世界；也不禁止决定论——即一切皆由先前条件决定。它禁止的是这两者与定域性的结合——那个假设：影响传播不快于光速，且遥远事件不可能依赖于近处某个旋钮的设置。"
+    },
+    {
+      "index": 4,
+      "en": "Physicists have learned to live with this in the way that working scientists usually learn to live with deep constraints: by not asking too often. Quantum theory predicts with extraordinary precision, and the predictions are what matter for most purposes. But the interpretation question has not gone away, and it resurfaces each time a new technology makes entanglement an engineering material rather than a curiosity.",
+      "zh": "物理学家已经学会了与这一点共处，用的是在职科学家通常学会与深层约束共处的方式：不把这个问题问得太频繁。量子理论的预测精确得非同寻常，而对多数用途来说，重要的正是那些预测。但诠释问题并没有消失；每当一项新技术把纠缠从奇趣变成工程材料，它就会重新浮现。"
+    },
+    {
+      "index": 5,
+      "en": "This is where the argument becomes interesting again. A constraint that once seemed to be about metaphysics now bears directly on cryptography, computing and metrology. Devices that exploit entanglement are, in effect, machines built from a philosophical result. The engineers who build them rarely describe their work that way, and they do not need to. But the result is doing the work all the same.",
+      "zh": "这正是争论重新变得有趣的地方。一道曾看似关乎形而上学的约束，如今直接作用于密码学、计算与计量学。利用纠缠的装置，实际上是建立在一条哲学结论之上的机器。制造它们的工程师很少这样描述自己的工作，也无需如此。但那条结论始终在起作用。"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "v1",
+      "term": "definite",
+      "phonetic": "/ˈdef.ɪ.nət/",
+      "pos": "adj.",
+      "meaning_zh": "确定的；明确的",
+      "note": "definite properties：确定属性，与 indefinite 相对",
+      "para_index": 0
+    },
+    {
+      "id": "v2",
+      "term": "inequality",
+      "phonetic": "/ˌɪn.ɪˈkwɒl.ə.ti/",
+      "pos": "n.",
+      "meaning_zh": "不等式；不平等",
+      "note": "数学语境里指 Bell inequality 这类不等式关系",
+      "para_index": 0
+    },
+    {
+      "id": "v3",
+      "term": "elementary",
+      "phonetic": "/ˌel.ɪˈmen.tər.i/",
+      "pos": "adj.",
+      "meaning_zh": "初等的；基本的",
+      "note": "elementary mathematics：初等数学（并非“小学的”）",
+      "para_index": 1
+    },
+    {
+      "id": "v4",
+      "term": "smouldered",
+      "phonetic": "/ˈsməʊl.dəd/",
+      "pos": "v.",
+      "meaning_zh": "（争论、情绪）郁积；闷烧",
+      "note": "英式拼写；美式为 smoldered，常作隐喻",
+      "para_index": 1
+    },
+    {
+      "id": "v5",
+      "term": "approximation",
+      "phonetic": "/əˌprɒk.sɪˈmeɪ.ʃən/",
+      "pos": "n.",
+      "meaning_zh": "近似；近似值",
+      "note": "a convenient approximation：权宜的近似",
+      "para_index": 1
+    },
+    {
+      "id": "v6",
+      "term": "protocol",
+      "phonetic": "/ˈprəʊ.tə.kɒl/",
+      "pos": "n.",
+      "meaning_zh": "规程；实验方案",
+      "note": "此处双关：既指实验流程，也暗指哲学被“程序化”",
+      "para_index": 1
+    },
+    {
+      "id": "v7",
+      "term": "vindicated",
+      "phonetic": "/ˈvɪn.dɪ.keɪ.tɪd/",
+      "pos": "adj.",
+      "meaning_zh": "被证明正确的；得到辩白的",
+      "note": "vindicate someone's view：证明某人的看法成立",
+      "para_index": 2
+    },
+    {
+      "id": "v8",
+      "term": "entangled",
+      "phonetic": "/ɪnˈtæŋ.ɡəld/",
+      "pos": "adj.",
+      "meaning_zh": "（量子）纠缠的；缠绕的",
+      "note": "quantum entanglement：量子纠缠",
+      "para_index": 2
+    },
+    {
+      "id": "v9",
+      "term": "correlations",
+      "phonetic": "/ˌkɒr.əˈleɪ.ʃənz/",
+      "pos": "n.",
+      "meaning_zh": "相关性；（统计）关联",
+      "note": "实验中指测量结果之间的统计相关",
+      "para_index": 2
+    },
+    {
+      "id": "v10",
+      "term": "loopholes",
+      "phonetic": "/ˈluːp.həʊlz/",
+      "pos": "n.",
+      "meaning_zh": "（规则中的）漏洞；可乘之隙",
+      "note": "close the loopholes：封堵漏洞",
+      "para_index": 2
+    },
+    {
+      "id": "v11",
+      "term": "paradox",
+      "phonetic": "/ˈpær.ə.dɒks/",
+      "pos": "n.",
+      "meaning_zh": "悖论；看似矛盾之说",
+      "note": "与 constraint（约束）形成对照论证",
+      "para_index": 2
+    },
+    {
+      "id": "v12",
+      "term": "overstate",
+      "phonetic": "/ˌəʊ.vəˈsteɪt/",
+      "pos": "v.",
+      "meaning_zh": "夸大；言过其实",
+      "note": "easy to overstate：很容易被夸大",
+      "para_index": 3
+    },
+    {
+      "id": "v13",
+      "term": "determinism",
+      "phonetic": "/dɪˈtɜː.mɪ.nɪ.zəm/",
+      "pos": "n.",
+      "meaning_zh": "决定论",
+      "note": "哲学概念：一切由先前条件决定",
+      "para_index": 3
+    },
+    {
+      "id": "v14",
+      "term": "conjunction",
+      "phonetic": "/kənˈdʒʌŋk.ʃən/",
+      "pos": "n.",
+      "meaning_zh": "结合；同时成立",
+      "note": "the conjunction of A with B：A 与 B 的合取",
+      "para_index": 3
+    },
+    {
+      "id": "v15",
+      "term": "metrology",
+      "phonetic": "/mɪˈtrɒl.ə.dʒi/",
+      "pos": "n.",
+      "meaning_zh": "计量学；测量科学",
+      "note": "精密测量领域，与 quantum sensing 密切相关",
+      "para_index": 5
+    }
+  ],
+  "sentences": [
+    {
+      "en": "If quantum mechanics were true, he wondered, could the world still be made of things that had definite properties before anyone measured them?",
+      "structure": "间接疑问句：he wondered + whether/if 从句（此处为疑问语序嵌套） ｜ 条件状语从句：If quantum mechanics were true（虚拟语气 were） ｜ 定语从句：that had definite properties…",
+      "zh": "他想：如果量子力学是真的，这个世界是否仍然由那些在被测量之前就拥有确定属性的东西构成？"
+    },
+    {
+      "en": "It translated a dispute that had smouldered for decades — between those who believed quantum theory was a complete description of reality and those who suspected it was merely a convenient approximation — into something that an experiment could settle.",
+      "structure": "主干：It translated a dispute … into something ｜ 定语从句：that had smouldered for decades ｜ 同位插入语：between those who… and those who…（两个 who 定语从句） ｜ 定语从句：that an experiment could settle",
+      "zh": "它把一场闷烧了数十年的争论——相信量子理论是对现实的完整描述的人，与怀疑它只是权宜近似的人之间的争论——转化为某种实验可以裁定的事情。"
+    },
+    {
+      "en": "What remained was not a paradox but a constraint — a hard limit on what kind of world we are allowed to describe.",
+      "structure": "主语从句：What remained ｜ 表语：not a paradox but a constraint（not…but… 并列） ｜ 同位语破折号补充：a hard limit ｜ 介词宾语从句：on what kind of world we are allowed to describe",
+      "zh": "留下来的不是一个悖论，而是一种约束——一道关于我们被允许描述何种世界的硬性界限。"
+    },
+    {
+      "en": "It forbids the conjunction of the two with locality — the assumption that influences travel no faster than light and that distant events cannot depend on the settings of a nearby dial.",
+      "structure": "主干：It forbids the conjunction of A with B ｜ 同位语：the assumption ｜ 两个并列 that 同位语从句：that influences travel… / that distant events cannot depend on…",
+      "zh": "它禁止的是这两者与定域性的结合——那个假设：影响传播不快于光速，且遥远事件不可能依赖于近处某个旋钮的设置。"
+    },
+    {
+      "en": "Devices that exploit entanglement are, in effect, machines built from a philosophical result.",
+      "structure": "主干：Devices are machines ｜ 定语从句：that exploit entanglement ｜ 插入语：in effect ｜ 过去分词短语作后置定语：built from a philosophical result",
+      "zh": "利用纠缠的装置，实际上是建立在一条哲学结论之上的机器。"
+    }
+  ]
+}
