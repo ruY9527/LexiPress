@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# LexiPress CLI entry
 """LexiPress 统一命令行入口。
 
 用法：
