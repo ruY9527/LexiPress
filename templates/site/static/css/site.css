@@ -140,6 +140,23 @@ input {
   white-space: nowrap;
 }
 
+.brand__about {
+  margin-left: var(--space-1);
+  padding: 3px 9px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  transition: all var(--dur-fast) var(--ease-editorial);
+  white-space: nowrap;
+}
+
+.brand__about:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .header-actions {
   display: flex;
   align-items: center;
@@ -2190,6 +2207,169 @@ input {
 .toast.is-visible {
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+/* --------------------------------------------------------------------------
+   About 页面
+   -------------------------------------------------------------------------- */
+.about-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: var(--space-7) 32px var(--space-9);
+}
+
+.about-hero {
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-7);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.about-hero__kicker {
+  display: block;
+  margin-bottom: var(--space-3);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.about-hero__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.about-hero__tagline {
+  margin: 0;
+  color: var(--text-secondary);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.about-section {
+  margin-bottom: var(--space-7);
+}
+
+.about-section__title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.about-section__title::before {
+  content: '—';
+  margin-right: var(--space-2);
+  color: var(--accent);
+}
+
+.about-prose p {
+  margin: 0 0 var(--space-4);
+  color: var(--text-secondary);
+  font-family: var(--font-zh);
+  font-size: 0.98rem;
+  line-height: 2;
+}
+
+.about-prose strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.about-prose em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.about-feature {
+  padding: var(--space-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+}
+
+.about-feature__label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.about-feature__text {
+  font-family: var(--font-zh);
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.prompt-block {
+  position: relative;
+  margin-top: var(--space-3);
+  padding: var(--space-5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--bg-elevated);
+}
+
+.prompt-block__code {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.85;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prompt-copy {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 5px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-tag);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  transition: all var(--dur-fast) var(--ease-editorial);
+}
+
+.prompt-copy:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.prompt-copy.is-copied {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.about-note {
+  margin-top: var(--space-3);
+  color: var(--text-muted);
+  font-family: var(--font-zh);
+  font-size: 0.82rem;
+  line-height: 1.8;
 }
 
 /* --------------------------------------------------------------------------

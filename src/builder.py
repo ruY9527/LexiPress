@@ -161,6 +161,19 @@ class SiteBuilder:
         atomic_write_text(out / "index.html", html_text)
         page_count += 1
 
+        # About 页（Clean URL: /about/）
+        about_dir = out / "about"
+        about_dir.mkdir(exist_ok=True)
+        atomic_write_text(
+            about_dir / "index.html",
+            self.env.get_template("about.html").render(
+                page="about",
+                nav_articles=articles[:8],
+                build_time=datetime.now().strftime("%Y-%m-%d %H:%M"),
+            ),
+        )
+        page_count += 1
+
         # 文章页
         for idx, article in enumerate(articles):
             prev_article = articles[idx - 1] if idx > 0 else None

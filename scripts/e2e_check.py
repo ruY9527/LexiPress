@@ -163,6 +163,19 @@ def main() -> int:
         page.click('[data-action="close-drawer"]')
         page.wait_for_timeout(320)
 
+        # ---------------- About 页 ----------------
+        print("\n▸ About")
+        page.goto(site + "/about/", wait_until="networkidle")
+        rep.add("About 页加载", page.locator(".about-hero__title").count() == 1)
+        rep.add("About 提示词展示", page.locator('[data-role="prompt-text"]').count() == 1)
+        prompt_text = page.locator('[data-role="prompt-text"]').inner_text()
+        rep.add("提示词内容完整", "LexiPress" in prompt_text and "two-stage LLM" in prompt_text)
+        rep.add("About 顶栏入口", page.locator('.brand__about').count() == 1)
+        # 复制按钮（剪贴板权限在测试上下文可能受限，仅验证按钮存在）
+        rep.add("提示词复制按钮", page.locator('[data-action="copy-prompt"]').count() == 1)
+        if args.shots:
+            page.screenshot(path=str(SHOT_DIR / "08-about.png"), full_page=True)
+
         # ---------------- 精读页 ----------------
         print("\n▸ 精读页")
         page.goto(site + "/", wait_until="networkidle")

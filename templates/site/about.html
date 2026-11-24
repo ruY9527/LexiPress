@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}关于 · {{ site.title }}{% endblock %}
+{% block description %}关于 LexiPress 外刊精读工坊：本地 Python + LLM 驱动的英文外刊精读系统{% endblock %}
+{% block og_title %}关于 · {{ site.title }}{% endblock %}
+{% block body_class %}page-about{% endblock %}
+
+{% block content %}
+<main class="about-page">
+
+  <header class="about-hero">
+    <span class="about-hero__kicker">About · {{ site.title }}</span>
+    <h1 class="about-hero__title">A reading studio,<br>not a feed.</h1>
+    <p class="about-hero__tagline">精读工坊，而非信息流。让打开网页本身成为一种享受。</p>
+  </header>
+
+  <section class="about-section">
+    <h2 class="about-section__title">这个站点做什么</h2>
+    <div class="about-prose">
+      <p>
+        {{ site.title }} 是一个<strong>本地 Python 驱动 + GitHub Actions 自动发布</strong>的英文外刊精读系统。
+        它从 RSS / Atom 与 Hacker News 等高质量外刊源采集文章，经过 URL 归一化、双重去重、
+        <code>trafilatura</code> 正文抽取与付费墙检测后，按「来源权重 × 时效性 × 篇幅适配度」综合打分，
+        精选出最值得读的文章。
+      </p>
+      <p>
+        精读解析采用<strong>两阶段结构化 LLM 调用</strong>：先分批带显式 <code>index</code> 翻译逐段对照，
+        杜绝中英错位；再全篇提炼导读、语境生词与长难句拆解，并用 Pydantic v2 强校验与重试保障质量。
+        未配置 <code>LLM_API_KEY</code> 时自动降级为规则模式，站点照常发布。
+      </p>
+      <p>
+        前台以 <em>Editorial Luxury</em> 高端杂志美学呈现：三套护眼主题、玻璃拟态顶栏、Cmd+K 全局搜索、
+        Hero 头版与印刷排版艺术封面兜底、沉浸式双栏精读、生词浮窗发音、词表联动、盲读保护罩，
+        以及 LocalStorage 生词本（支持一键导出 Anki CSV / Markdown）。
+      </p>
+      <p>
+        职责边界清晰：<strong>采集、解析与本地可视化后台只在本地运行</strong>；
+        GitHub Actions 仅负责将已就绪的博客源文件以 <code>--build-only</code> 渲染为静态站并部署。
+      </p>
+
+      <div class="about-features">
+        <div class="about-feature">
+          <span class="about-feature__label">01 · Harvest</span>
+          <span class="about-feature__text">多源采集、URL 归一化、双重去重、正文精准抽取与付费墙识别。</span>
+        </div>
+        <div class="about-feature">
+          <span class="about-feature__label">02 · Understand</span>
+          <span class="about-feature__text">两阶段 LLM 精读：逐段双语对齐、语境生词、长难句语法拆解。</span>
+        </div>
+        <div class="about-feature">
+          <span class="about-feature__label">03 · Read</span>
+          <span class="about-feature__text">杂志风沉浸阅读：三主题、生词浮窗发音、盲读保护与学习工作台。</span>
+        </div>
+        <div class="about-feature">
+          <span class="about-feature__label">04 · Publish</span>
+          <span class="about-feature__text">GitHub Actions 纯渲染发布，本地数据即真理源，零后端依赖。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <h2 class="about-section__title">项目提示词</h2>
+    <div class="about-prose">
+      <p>如果用一句话给 AI 下指令来构建这个项目，它就是下面这段提示词：</p>
+    </div>
+    <div class="prompt-block">
+      <button class="prompt-copy" type="button" data-action="copy-prompt">复制</button>
+      <pre class="prompt-block__code" data-role="prompt-text">Build LexiPress: a Python + LLM English reading studio. Harvest RSS/HN → dedupe → trafilatura extract → score → two-stage LLM (indexed paragraph translation + vocab/sentence breakdown, Pydantic-validated, rule-only fallback) → editorial-luxury Jinja2 site with 3 themes, Cmd+K search, vocab popover &amp; Anki export → GitHub Pages via Actions.</pre>
+    </div>
+    <p class="about-note">中文版：搭建 LexiPress —— Python + LLM 英文精读工坊。多源采集 → URL 去重 → 正文抽取 → 综合打分 → 两阶段 LLM（带 index 的逐段翻译 + 生词/长难句提炼，Pydantic 校验，失败自动规则降级）→ 高端杂志风静态站（三主题、Cmd+K 搜索、生词浮窗、Anki 导出）→ GitHub Actions 自动发布。</p>
+  </section>
+
+  <section class="about-section">
+    <h2 class="about-section__title">致谢</h2>
+    <div class="about-prose">
+      <p>
+        本站优先选择开放协议与友好媒体作为内容源，每篇文章均显著标注原刊来源与原文链接，
+        版权归各原刊所有。感谢所有开源项目让这套流水线成为可能。
+      </p>
+    </div>
+  </section>
+
+  <a class="back-link" href="{{ base_url }}/">
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"></path></svg>
+    Back to Issues
+  </a>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.querySelector('[data-action="copy-prompt"]')?.addEventListener('click', async function () {
+    var text = document.querySelector('[data-role="prompt-text"]').textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      this.textContent = '已复制';
+      this.classList.add('is-copied');
+      setTimeout(() => { this.textContent = '复制'; this.classList.remove('is-copied'); }, 1800);
+    } catch (e) {
+      this.textContent = '请手动复制';
+      setTimeout(() => { this.textContent = '复制'; }, 1800);
+    }
+  });
+</script>
+{% endblock %}
