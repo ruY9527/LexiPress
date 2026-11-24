@@ -68,12 +68,40 @@ jobs:
           done
           echo "产物完整，文章页 $(ls -1 dist/articles | wc -l) 篇"
 
+      - name: Verify Pages availability
+        id: pages_check
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TOKEN="${GH_PAT:-$GH_TOKEN}"
+          CODE=$(curl -s -o /tmp/lp-pages.json -w "%{http_code}" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages")
+          echo "pages_api_status=$CODE" >> "$GITHUB_OUTPUT"
+          if [ "$CODE" != "200" ]; then
+            if [ -z "$GH_PAT" ]; then
+              echo "::error::仓库 GitHub Pages 尚未启用，且未提供 GH_PAT secret。"
+              echo "::error::configure-pages 的 enablement 选项需要非 GITHUB_TOKEN（官方限制），因此无法用默认 token 自动启用。"
+              echo "::error::请二选一："
+              echo "::error::  [推荐·30秒] 打开 https://github.com/${{ github.repository }}/settings/pages ，"
+              echo "::error::    将 Build and deployment → Source 设为 GitHub Actions，然后重新运行本 workflow。"
+              echo "::error::  [全自动] 创建 fine-grained PAT（Administration: read-write + Pages: read-write），"
+              echo "::error::    添加为仓库 secret GH_PAT，本 workflow 即会自动启用 Pages。"
+              exit 1
+            fi
+            echo "Pages 尚未启用；检测到 GH_PAT，将由 configure-pages(enablement) 自动创建。"
+          else
+            echo "Pages 已启用，状态正常。"
+          fi
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
-          # 仓库 Pages 尚未启用时，GET /pages 会返回 404。
-          # enablement: true 会创建 Pages 站点并设为 GitHub Actions 源。
-          enablement: true
+          # enablement 只能用非 GITHUB_TOKEN：有 GH_PAT 时开启自动启用，否则依赖已存在的 Pages 配置。
+          enablement: ${{ secrets.GH_PAT != '' }}
+          token: ${{ secrets.GH_PAT || github.token }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
