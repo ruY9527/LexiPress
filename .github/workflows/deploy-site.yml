@@ -70,6 +70,10 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          # 仓库 Pages 尚未启用时，GET /pages 会返回 404。
+          # enablement: true 会创建 Pages 站点并设为 GitHub Actions 源。
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
