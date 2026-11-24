@@ -93,10 +93,28 @@ conda activate base
 python -m pip install -r requirements.txt
 ```
 
-> 环境说明：本机 `base` 环境（Python 3.13.9）已实测通过 133 项测试与 `--build-only` 构建；
-> 若你更偏好 Python 3.11，也可使用已有的 `py311` 环境（`conda activate py311`），
-> 但它相对干净，需要完整执行上面的 `pip install -r requirements.txt`。
-> GitHub Actions 部署仍使用其托管的 Python 3.11，与本地环境无关。
+#### base 环境 Python 版本详解
+
+| 项目 | 值 |
+| :--- | :--- |
+| Python 版本 | **3.13.9**（CPython，正式版 final） |
+| 完整版本串 | `3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:09:58) [MSC v.1929 64 bit (AMD64)]` |
+| 解释器实现 | CPython |
+| 编译器 | MSC v.1929 64 bit (AMD64)，即 Microsoft Visual C++ 构建 |
+| 架构 | 64 位（x86-64 / AMD64） |
+| 可执行文件路径 | `D:\software_env\anaconda3\python.exe` |
+| 环境根目录（sys.prefix） | `D:\software_env\anaconda3` |
+| conda 版本 | 26.1.1 |
+
+版本兼容性说明：
+
+- 项目声明要求 Python 3.11+，base 的 3.13.9 完全满足；项目代码使用 `from __future__ import annotations`，
+  在 3.13 下无兼容性问题，已实测通过 133 项测试、`--build-only` 构建与 67 项浏览器端到端验收。
+- GitHub Actions 部署使用其托管的 Python 3.11，与本地 base 的 3.13.9 版本不同，但两者都满足 3.11+ 下限，
+  且渲染路径只依赖 Jinja2 / Pydantic / PyYAML / python-dotenv，跨版本表现一致。
+
+若你更偏好 Python 3.11，可使用已有的 `py311` 环境（`conda activate py311`，Python 3.11.0），
+但它几乎是干净环境，需要完整执行 `pip install -r requirements.txt`。
 
 ### 2. 配置
 

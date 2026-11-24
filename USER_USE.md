@@ -24,10 +24,37 @@
 
 | 项目 | 说明 |
 | :--- | :--- |
-| conda 环境 | `base`（本机路径 `D:\software_env\anaconda3`，Python 3.13.9）——已实测可跑通全部流程 |
+| conda 环境 | `base`（本机路径 `D:\software_env\anaconda3`）——已实测可跑通全部流程 |
 | 环境验证状态 | 133 项测试通过、`--build-only` 构建通过、浏览器端到端 67/67 通过 |
 | Git | 任意；已配置 SSH 免密到 GitHub |
 | (可选) LLM_API_KEY | 不配则自动降级规则模式，站点照常发布 |
+
+#### base 环境 Python 版本详解
+
+| 项目 | 值 |
+| :--- | :--- |
+| Python 版本 | **3.13.9**（CPython，正式版 final） |
+| 完整版本串 | `3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:09:58) [MSC v.1929 64 bit (AMD64)]` |
+| 解释器实现 | CPython |
+| 编译器 | MSC v.1929 64 bit (AMD64) |
+| 架构 | 64 位（x86-64 / AMD64） |
+| 可执行文件路径 | `D:\software_env\anaconda3\python.exe` |
+| 环境根目录（sys.prefix） | `D:\software_env\anaconda3` |
+| conda 版本 | 26.1.1 |
+
+可在终端用以下命令随时核对上述信息：
+
+```bash
+python -c "import sys, platform, struct; print(sys.version); print('版本:', '%d.%d.%d' % sys.version_info[:3]); print('实现:', platform.python_implementation()); print('编译器:', platform.python_compiler()); print('位数:', struct.calcsize('P')*8); print('路径:', sys.executable)"
+conda --version
+```
+
+版本兼容性说明：
+
+- 项目要求 Python 3.11+，base 的 3.13.9 完全满足；代码使用 `from __future__ import annotations`，
+  在 3.13 下无兼容性问题（已实测 133 测试 + 构建 + 67 项端到端全过）。
+- GitHub Actions 使用托管 Python 3.11，与本地 3.13.9 版本不同但都满足 3.11+ 下限；
+  渲染路径只依赖 Jinja2 / Pydantic / PyYAML / python-dotenv，跨版本表现一致。
 
 ### 选择环境并安装依赖
 
