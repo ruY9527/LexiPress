@@ -1,9 +1,5 @@
 name: Deploy Site
 
-# 纯静态渲染部署：本地已准备好 data/parsed/*.json 与 data/index.json，
-# 这里只执行 `python main.py --build-only` 渲染 dist/ 并部署到 GitHub Pages。
-# 不运行任何采集、LLM 解析等后端逻辑。
-
 on:
   push:
     branches: [main]
@@ -21,9 +17,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  # configure-pages 的 enablement 会调用 createPagesSite({build_type:'workflow'})
-  # 首次创建 Pages 站点需要 administration:write
-  administration: write
 
 concurrency:
   group: "pages"
@@ -33,11 +26,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     env:
       PYTHONIOENCODING: utf-8
       PYTHONUNBUFFERED: "1"
@@ -82,7 +73,7 @@ jobs:
             "https://api.github.com/repos/$GH_REPO/pages")
           echo "get_pages_status=$CODE"
           if [ "$CODE" = "404" ]; then
-            echo "Pages 站点不存在，尝试以 GitHub Actions 为源创建..."
+            echo "Pages 站点不存在，尝试创建（build_type=workflow）..."
             CREATE_CODE=$(curl -s -o /tmp/create.json -w "%{http_code}" -X PUT \
               -H "Authorization: Bearer $GH_TOKEN" \
               -H "Accept: application/vnd.github+json" \
@@ -95,6 +86,7 @@ jobs:
             if [ "$CREATE_CODE" != "201" ] && [ "$CREATE_CODE" != "204" ]; then
               echo "::error::无法自动创建 Pages 站点（HTTP $CREATE_CODE）。"
               echo "::error::请在 https://github.com/$GH_REPO/settings/pages 将 Source 设为 GitHub Actions。"
+              echo "::error::或添加仓库 secret GH_PAT（Administration read-write + Pages read-write）。"
               exit 1
             fi
             echo "Pages 站点创建成功。"
