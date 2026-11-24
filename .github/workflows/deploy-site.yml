@@ -61,8 +61,12 @@ jobs:
           echo "产物完整，文章页 $(ls -1 dist/articles | wc -l) 篇"
 
       - name: Ensure Pages site exists
+        # 只有在提供了 GH_PAT（有 administration:write 权限）时才尝试自动创建站点。
+        # 没有 PAT 时 GITHUB_TOKEN 无权创建 Pages，跳过此步，交给 configure-pages 处理
+        # （若站点已启用则正常；未启用则由其给出标准提示）。
+        if: ${{ secrets.GH_PAT != '' }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
           GH_REPO: ${{ github.repository }}
         run: |
           set +e
@@ -73,7 +77,7 @@ jobs:
             "https://api.github.com/repos/$GH_REPO/pages")
           echo "get_pages_status=$CODE"
           if [ "$CODE" = "404" ]; then
-            echo "Pages 站点不存在，尝试创建（build_type=workflow）..."
+            echo "Pages 站点不存在，使用 GH_PAT 创建（build_type=workflow）..."
             CREATE_CODE=$(curl -s -o /tmp/create.json -w "%{http_code}" -X PUT \
               -H "Authorization: Bearer $GH_TOKEN" \
               -H "Accept: application/vnd.github+json" \
@@ -84,22 +88,19 @@ jobs:
             echo "create_pages_status=$CREATE_CODE"
             cat /tmp/create.json
             if [ "$CREATE_CODE" != "201" ] && [ "$CREATE_CODE" != "204" ]; then
-              echo "::error::无法自动创建 Pages 站点（HTTP $CREATE_CODE）。"
-              echo "::error::请在 https://github.com/$GH_REPO/settings/pages 将 Source 设为 GitHub Actions。"
-              echo "::error::或添加仓库 secret GH_PAT（Administration read-write + Pages read-write）。"
+              echo "::error::GH_PAT 创建 Pages 失败（HTTP $CREATE_CODE），请检查 PAT 权限。"
               exit 1
             fi
             echo "Pages 站点创建成功。"
-          elif [ "$CODE" != "200" ]; then
-            echo "::error::检查 Pages 站点失败（HTTP $CODE）"
-            cat /tmp/pages.json
-            exit 1
           else
-            echo "Pages 站点已存在。"
+            echo "Pages 站点检查完成（HTTP $CODE）。"
           fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: ${{ secrets.GH_PAT != '' }}
+          token: ${{ secrets.GH_PAT || github.token }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
