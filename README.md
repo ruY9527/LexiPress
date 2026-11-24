@@ -78,15 +78,25 @@ LexiPress/
 
 ## 🚀 快速开始
 
-### 1. 安装依赖
+### 1. 选择 conda 环境并安装依赖
+
+本项目**不新建虚拟环境**，直接使用本机已有的 conda 环境。推荐 `base` 环境（已验证，依赖齐全）。
 
 ```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate   Linux/macOS: source .venv/bin/activate
-pip install -r requirements.txt
+# 查看本机已有的 conda 环境
+conda env list
+
+# 激活 base 环境（本机已安装：D:\software_env\anaconda3，Python 3.13.9）
+conda activate base
+
+# 补装/更新项目依赖（base 已具备绝大多数依赖，此命令只补齐缺失项）
+python -m pip install -r requirements.txt
 ```
 
-> 需要 Python 3.11+。
+> 环境说明：本机 `base` 环境（Python 3.13.9）已实测通过 133 项测试与 `--build-only` 构建；
+> 若你更偏好 Python 3.11，也可使用已有的 `py311` 环境（`conda activate py311`），
+> 但它相对干净，需要完整执行上面的 `pip install -r requirements.txt`。
+> GitHub Actions 部署仍使用其托管的 Python 3.11，与本地环境无关。
 
 ### 2. 配置
 

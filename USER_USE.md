@@ -20,27 +20,36 @@
 
 ## 1. 环境准备
 
-| 依赖 | 版本要求 | 说明 |
-| :--- | :--- | :--- |
-| Python | 3.11+ | 本地开发与 GitHub Actions 统一 |
-| pip | 最新 | 安装依赖 |
-| Git | 任意 | 部署与回写缓存 |
-| (可选) 网络代理 | — | 采集外刊站点需要能访问公网 |
+本项目**不新建虚拟环境**。直接使用本机已有的 **conda base 环境**，无需 `python -m venv`。
 
-### 安装依赖
+| 项目 | 说明 |
+| :--- | :--- |
+| conda 环境 | `base`（本机路径 `D:\software_env\anaconda3`，Python 3.13.9）——已实测可跑通全部流程 |
+| 环境验证状态 | 133 项测试通过、`--build-only` 构建通过、浏览器端到端 67/67 通过 |
+| Git | 任意；已配置 SSH 免密到 GitHub |
+| (可选) LLM_API_KEY | 不配则自动降级规则模式，站点照常发布 |
+
+### 选择环境并安装依赖
 
 ```bash
-# 建议使用虚拟环境
-python -m venv .venv
+# 1) 查看本机已有的 conda 环境（不新建环境）
+conda env list
 
-# Windows 激活
-.venv\Scripts\activate
-# Linux / macOS 激活
-source .venv/bin/activate
+# 2) 激活 base 环境（推荐，依赖最齐全）
+conda activate base
 
-pip install -r requirements.txt
+# 3) 补装/更新依赖（base 已具备绝大多数包，通常只补齐个别缺失项）
+python -m pip install -r requirements.txt
 ```
 
+> **为什么用 base 而不是 py311？** 本机 `base` 环境的 httpx / feedparser / trafilatura /
+> readability-lxml / beautifulsoup4 / lxml / pydantic / PyYAML / python-dotenv / Jinja2 /
+> openai / fastapi / uvicorn / pytest / playwright 均已安装，只需补 `pytest-asyncio`；
+> 而 `py311` 环境几乎是干净的，需要完整安装一遍。`base` 已实测可跑通采集、解析、构建与测试全流程。
+>
+> 如果你更偏好 Python 3.11，可 `conda activate py311` 后完整执行第 3 步；
+> GitHub Actions 使用其托管的 Python 3.11，与本地环境无关。
+>
 > 如果国内网络较慢，可先给 pip 配置镜像源（如清华源）再安装。
 
 ---
