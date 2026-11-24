@@ -60,46 +60,14 @@ jobs:
           done
           echo "产物完整，文章页 $(ls -1 dist/articles | wc -l) 篇"
 
-      - name: Ensure Pages site exists
-        # 只有在提供了 GH_PAT（有 administration:write 权限）时才尝试自动创建站点。
-        # 没有 PAT 时 GITHUB_TOKEN 无权创建 Pages，跳过此步，交给 configure-pages 处理
-        # （若站点已启用则正常；未启用则由其给出标准提示）。
-        if: ${{ secrets.GH_PAT != '' }}
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          set +e
-          CODE=$(curl -s -o /tmp/pages.json -w "%{http_code}" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/$GH_REPO/pages")
-          echo "get_pages_status=$CODE"
-          if [ "$CODE" = "404" ]; then
-            echo "Pages 站点不存在，使用 GH_PAT 创建（build_type=workflow）..."
-            CREATE_CODE=$(curl -s -o /tmp/create.json -w "%{http_code}" -X PUT \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              -H "Content-Type: application/json" \
-              -d '{"build_type":"workflow"}' \
-              "https://api.github.com/repos/$GH_REPO/pages")
-            echo "create_pages_status=$CREATE_CODE"
-            cat /tmp/create.json
-            if [ "$CREATE_CODE" != "201" ] && [ "$CREATE_CODE" != "204" ]; then
-              echo "::error::GH_PAT 创建 Pages 失败（HTTP $CREATE_CODE），请检查 PAT 权限。"
-              exit 1
-            fi
-            echo "Pages 站点创建成功。"
-          else
-            echo "Pages 站点检查完成（HTTP $CODE）。"
-          fi
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
-          enablement: ${{ secrets.GH_PAT != '' }}
+          # 站点不存在时自动以 GitHub Actions 为源创建。
+          # 首次创建需要 administration:write，GITHUB_TOKEN 无此权限，
+          # 因此必须提供 GH_PAT secret（Administration R/W + Pages R/W）。
+          # 仓库已在网页启用 Pages 后，此参数无副作用。
+          enablement: true
           token: ${{ secrets.GH_PAT || github.token }}
 
       - name: Upload artifact
